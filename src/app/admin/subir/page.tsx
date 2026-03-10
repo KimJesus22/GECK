@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { toast } from "sonner";
 import {
   Upload,
   FileText,
@@ -40,21 +41,16 @@ export default function AdminSubirPage() {
   const [categoria, setCategoria] = useState("normativas");
   const [archivo, setArchivo] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{
-    text: string;
-    type: "success" | "error";
-  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!archivo) {
-      setMessage({ text: "Selecciona un archivo para subir.", type: "error" });
+      toast.error("Selecciona un archivo para subir ❌");
       return;
     }
 
     setLoading(true);
-    setMessage(null);
 
     try {
       const supabase = createBrowserSupabaseClient();
@@ -95,10 +91,7 @@ export default function AdminSubirPage() {
       }
 
       // Éxito
-      setMessage({
-        text: `✅ "${titulo}" subido exitosamente a la categoría "${categoria}".`,
-        type: "success",
-      });
+      toast.success("Documento encriptado y subido a la base ✅");
 
       // Reset form
       setTitulo("");
@@ -107,10 +100,7 @@ export default function AdminSubirPage() {
       setArchivo(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (err) {
-      setMessage({
-        text: err instanceof Error ? err.message : "Error desconocido.",
-        type: "error",
-      });
+      toast.error(err instanceof Error ? err.message : "Acceso denegado o error de red ❌");
     } finally {
       setLoading(false);
     }
@@ -271,33 +261,6 @@ export default function AdminSubirPage() {
               />
             </div>
           </div>
-
-          {/* Message */}
-          {message && (
-            <div
-              className={`flex items-start gap-3 border p-4 ${
-                message.type === "success"
-                  ? "border-phosphor/20 bg-phosphor-glow"
-                  : "border-red-500/30 bg-red-500/5"
-              }`}
-              style={{ animation: "fade-in-up 0.3s ease-out both" }}
-            >
-              {message.type === "success" ? (
-                <CheckCircle className="h-4 w-4 shrink-0 text-phosphor mt-0.5" />
-              ) : (
-                <AlertTriangle className="h-4 w-4 shrink-0 text-red-400 mt-0.5" />
-              )}
-              <p
-                className={`font-mono text-xs ${
-                  message.type === "success"
-                    ? "text-phosphor-dim"
-                    : "text-red-400"
-                }`}
-              >
-                {message.text}
-              </p>
-            </div>
-          )}
 
           {/* Submit */}
           <button

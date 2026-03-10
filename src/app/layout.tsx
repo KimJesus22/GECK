@@ -22,6 +22,8 @@ export const metadata: Metadata = {
     "INGENIA BASE: plataforma corporativa de capacitación y gestión de conocimiento empresarial.",
 };
 
+import { Toaster } from "sonner";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,6 +34,18 @@ export default function RootLayout({
       <body
         className={`${jetbrainsMono.variable} ${inter.variable} antialiased`}
       >
+        <Toaster 
+          theme="dark" 
+          toastOptions={{
+            style: {
+              background: '#0d1117',
+              border: '1px solid rgba(57, 255, 20, 0.2)',
+              color: '#39ff14',
+              fontFamily: 'var(--font-jetbrains)',
+              borderRadius: '0px',
+            }
+          }} 
+        />
         <ConditionalSidebar />
         <MainContent>{children}</MainContent>
       </body>

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createBrowserSupabaseClient } from "@/lib/supabase-browser";
 import {
   Home,
   BookOpen,
@@ -15,6 +16,7 @@ import {
   GraduationCap,
   HardHat,
   Users,
+  Upload,
 } from "lucide-react";
 
 const navItems = [
@@ -31,6 +33,33 @@ const navItems = [
 export default function Sidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    async function checkRole() {
+      try {
+        const supabase = createBrowserSupabaseClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (user) {
+          const { data } = await supabase
+            .from("perfiles")
+            .select("rol")
+            .eq("id", user.id)
+            .single();
+
+          if (data?.rol === "admin") {
+            setIsAdmin(true);
+          }
+        }
+      } catch (error) {
+        console.error("Error al verificar rol:", error);
+      }
+    }
+    checkRole();
+  }, []);
 
   return (
     <aside
@@ -93,6 +122,35 @@ export default function Sidebar() {
             </Link>
           );
         })}
+
+        {/* Enlace estricto de administrador */}
+        {isAdmin && (
+          <>
+            <div className="my-2 h-px bg-phosphor/10 px-3" />
+            <Link
+              href="/admin/subir"
+              className={`
+                group flex items-center gap-3 rounded-none px-3 py-3
+                font-mono text-sm tracking-wide
+                transition-all duration-200
+                ${
+                  pathname === "/admin/subir"
+                    ? "border border-purple-accent/30 bg-purple-glow text-purple-accent shadow-[0_0_12px_rgba(196,167,231,0.1)]"
+                    : "border border-transparent text-purple-accent/60 hover:border-purple-accent/30 hover:bg-terminal-700 hover:text-purple-accent"
+                }
+              `}
+            >
+              <Upload
+                className={`h-[18px] w-[18px] shrink-0 transition-colors ${
+                  pathname === "/admin/subir"
+                    ? "text-purple-accent"
+                    : "text-purple-accent/60 group-hover:text-purple-accent"
+                }`}
+              />
+              {!collapsed && <span>Subir Archivo</span>}
+            </Link>
+          </>
+        )}
       </nav>
 
       {/* Collapse toggle */}
