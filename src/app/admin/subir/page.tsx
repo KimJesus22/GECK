@@ -19,6 +19,9 @@ const categorias = [
   { value: "capacitacion", label: "Capacitación" },
   { value: "seguridad", label: "Seguridad Industrial" },
   { value: "rrhh", label: "Recursos Humanos" },
+  { value: "soporte", label: "Soporte Técnico" },
+  { value: "calidad", label: "Calidad" },
+  { value: "legal", label: "Legal y Cumplimiento" },
 ];
 
 function getFileType(filename: string): "pdf" | "word" | "video" {

@@ -17,6 +17,9 @@ import {
   HardHat,
   Users,
   Upload,
+  Headset,
+  BadgeCheck,
+  Scale,
 } from "lucide-react";
 
 const navItems = [
@@ -27,6 +30,9 @@ const navItems = [
   { label: "Capacitación", icon: GraduationCap, href: "/capacitacion" },
   { label: "Seguridad Industrial", icon: HardHat, href: "/seguridad" },
   { label: "Recursos Humanos", icon: Users, href: "/rrhh" },
+  { label: "Soporte Técnico", icon: Headset, href: "/soporte" },
+  { label: "Calidad", icon: BadgeCheck, href: "/calidad" },
+  { label: "Legal y Cumplimiento", icon: Scale, href: "/legal" },
   { label: "Ajustes", icon: Settings, href: "/ajustes" },
 ];
 

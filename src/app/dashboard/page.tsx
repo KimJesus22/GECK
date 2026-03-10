@@ -15,6 +15,9 @@ const categoriasOpts = [
   { value: "capacitacion", label: "Capacitación" },
   { value: "seguridad", label: "Seguridad Industrial" },
   { value: "rrhh", label: "Recursos Humanos" },
+  { value: "soporte", label: "Soporte Técnico" },
+  { value: "calidad", label: "Calidad" },
+  { value: "legal", label: "Legal y Cumplimiento" },
 ];
 
 const fileTypeConfig: Record<string, { icon: LucideIcon; label: string; color: string }> = {
