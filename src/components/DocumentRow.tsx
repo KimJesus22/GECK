@@ -21,6 +21,7 @@ interface DocumentRowProps {
   fileType: "pdf" | "word" | "video";
   size: string;
   date: string;
+  url?: string;
   delay?: number;
 }
 
@@ -30,10 +31,12 @@ export default function DocumentRow({
   fileType,
   size,
   date,
+  url,
   delay = 0,
 }: DocumentRowProps) {
   const config = fileTypeConfig[fileType];
   const Icon = config.icon;
+  const fileUrl = url && url !== "#" ? url : null;
 
   return (
     <>
@@ -82,24 +85,33 @@ export default function DocumentRow({
         {/* Actions */}
         <td className="px-4 py-4">
           <div className="flex items-center gap-2">
-            <button
-              className="flex items-center gap-1.5 border border-purple-accent/30 bg-transparent
+            <a
+              href={fileUrl || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-1.5 border border-purple-accent/30 bg-transparent
                          px-3 py-1.5 font-mono text-xs tracking-wider text-purple-accent
                          transition-all duration-200
-                         hover:bg-purple-accent hover:text-terminal-900 hover:shadow-[0_0_16px_rgba(196,167,231,0.25)]"
+                         hover:bg-purple-accent hover:text-terminal-900 hover:shadow-[0_0_16px_rgba(196,167,231,0.25)]
+                         ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
             >
               <Eye className="h-3.5 w-3.5" />
               Leer
-            </button>
-            <button
-              className="flex items-center gap-1.5 border border-phosphor/20 bg-transparent
+            </a>
+            <a
+              href={fileUrl || "#"}
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-1.5 border border-phosphor/20 bg-transparent
                          px-3 py-1.5 font-mono text-xs tracking-wider text-softgreen-dim
                          transition-all duration-200
-                         hover:border-purple-accent/40 hover:bg-purple-glow hover:text-purple-accent"
+                         hover:border-purple-accent/40 hover:bg-purple-glow hover:text-purple-accent
+                         ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
             >
               <Download className="h-3.5 w-3.5" />
               Descargar
-            </button>
+            </a>
           </div>
         </td>
       </tr>
@@ -139,24 +151,33 @@ export default function DocumentRow({
 
             {/* Actions */}
             <div className="flex items-center gap-2">
-              <button
-                className="flex flex-1 items-center justify-center gap-1.5 border border-purple-accent/30
+              <a
+                href={fileUrl || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex flex-1 items-center justify-center gap-1.5 border border-purple-accent/30
                            px-3 py-2 font-mono text-xs tracking-wider text-purple-accent
                            transition-all duration-200
-                           hover:bg-purple-accent hover:text-terminal-900 hover:shadow-[0_0_16px_rgba(196,167,231,0.25)]"
+                           hover:bg-purple-accent hover:text-terminal-900 hover:shadow-[0_0_16px_rgba(196,167,231,0.25)]
+                           ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
               >
                 <Eye className="h-3.5 w-3.5" />
                 Leer
-              </button>
-              <button
-                className="flex flex-1 items-center justify-center gap-1.5 border border-phosphor/20
+              </a>
+              <a
+                href={fileUrl || "#"}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex flex-1 items-center justify-center gap-1.5 border border-phosphor/20
                            px-3 py-2 font-mono text-xs tracking-wider text-softgreen-dim
                            transition-all duration-200
-                           hover:border-purple-accent/40 hover:bg-purple-glow hover:text-purple-accent"
+                           hover:border-purple-accent/40 hover:bg-purple-glow hover:text-purple-accent
+                           ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
               >
                 <Download className="h-3.5 w-3.5" />
                 Descargar
-              </button>
+              </a>
             </div>
           </div>
         </td>

@@ -119,6 +119,7 @@ export default async function ManualesPage() {
                   fileType={doc.tipo_archivo}
                   size={doc.tamano}
                   date={doc.fecha_creacion.split("T")[0]}
+                  url={doc.url_archivo}
                   delay={300 + i * 60}
                 />
               ))

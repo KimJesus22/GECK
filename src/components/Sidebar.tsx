@@ -11,12 +11,20 @@ import {
   Terminal,
   ChevronLeft,
   ChevronRight,
+  ClipboardList,
+  GraduationCap,
+  HardHat,
+  Users,
 } from "lucide-react";
 
 const navItems = [
   { label: "Inicio", icon: Home, href: "/dashboard" },
   { label: "Manuales", icon: BookOpen, href: "/manuales" },
   { label: "Normativas", icon: ShieldCheck, href: "/normativas" },
+  { label: "Instructivos", icon: ClipboardList, href: "/instructivos" },
+  { label: "Capacitación", icon: GraduationCap, href: "/capacitacion" },
+  { label: "Seguridad Industrial", icon: HardHat, href: "/seguridad" },
+  { label: "Recursos Humanos", icon: Users, href: "/rrhh" },
   { label: "Ajustes", icon: Settings, href: "/ajustes" },
 ];
 
