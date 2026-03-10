@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Terminal, Mail, Lock, ArrowRight, UserPlus, LogIn } from "lucide-react";
+import { createBrowserSupabaseClient } from "@/lib/supabase-browser";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,21 +21,34 @@ export default function LoginPage() {
     setLoading(true);
     setMessage(null);
 
-    // Placeholder — aquí se conectará con Supabase Auth
-    setTimeout(() => {
+    const supabase = createBrowserSupabaseClient();
+
+    if (mode === "register") {
+      const { error } = await supabase.auth.signUp({ email, password });
       setLoading(false);
-      if (mode === "register") {
-        setMessage({
-          text: "Se ha enviado un enlace de confirmación a tu correo.",
-          type: "success",
-        });
+      if (error) {
+        setMessage({ text: error.message, type: "error" });
       } else {
         setMessage({
-          text: "Verificando credenciales...",
+          text: "✅ Cuenta creada exitosamente. Ahora puedes iniciar sesión.",
           type: "success",
         });
+        setMode("login");
+        setPassword("");
       }
-    }, 1500);
+    } else {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      setLoading(false);
+      if (error) {
+        setMessage({ text: error.message, type: "error" });
+      } else {
+        setMessage({ text: "✅ Acceso concedido. Redirigiendo...", type: "success" });
+        setTimeout(() => router.push("/dashboard"), 1000);
+      }
+    }
   };
 
   return (
