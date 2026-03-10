@@ -20,6 +20,7 @@ import {
   Headset,
   BadgeCheck,
   Scale,
+  Activity,
 } from "lucide-react";
 
 const navItems = [
@@ -129,7 +130,7 @@ export default function Sidebar() {
           );
         })}
 
-        {/* Enlace estricto de administrador */}
+        {/* Admin Links */}
         {isAdmin && (
           <>
             <div className="my-2 h-px bg-phosphor/10 px-3" />
@@ -154,6 +155,28 @@ export default function Sidebar() {
                 }`}
               />
               {!collapsed && <span>Subir Archivo</span>}
+            </Link>
+            <Link
+              href="/admin/logs"
+              className={`
+                group flex items-center gap-3 rounded-none px-3 py-3
+                font-mono text-sm tracking-wide
+                transition-all duration-200
+                ${
+                  pathname === "/admin/logs"
+                    ? "border border-purple-accent/30 bg-purple-glow text-purple-accent shadow-[0_0_12px_rgba(196,167,231,0.1)]"
+                    : "border border-transparent text-purple-accent/60 hover:border-purple-accent/30 hover:bg-terminal-700 hover:text-purple-accent"
+                }
+              `}
+            >
+              <Activity
+                className={`h-[18px] w-[18px] shrink-0 transition-colors ${
+                  pathname === "/admin/logs"
+                    ? "text-purple-accent"
+                    : "text-purple-accent/60 group-hover:text-purple-accent"
+                }`}
+              />
+              {!collapsed && <span>Auditoría</span>}
             </Link>
           </>
         )}

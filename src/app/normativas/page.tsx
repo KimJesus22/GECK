@@ -164,6 +164,7 @@ export default async function NormativasPage() {
               documents.map((doc, i) => (
                 <DocumentRow
                   key={doc.id}
+                  id={doc.id}
                   name={doc.titulo}
                   description={doc.descripcion}
                   fileType={doc.tipo_archivo}

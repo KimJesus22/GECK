@@ -6,6 +6,7 @@ import { createBrowserSupabaseClient } from "@/lib/supabase-browser";
 import type { Documento } from "@/lib/types";
 import { toast } from "sonner";
 import SkeletonCard from "@/components/SkeletonCard";
+import { logAuditAction } from "@/lib/audit";
 
 const categoriasOpts = [
   { value: "todas", label: "Todas las Categorías" },
@@ -254,6 +255,11 @@ export default function DashboardPage() {
                         href={doc.url_archivo !== "#" ? doc.url_archivo : undefined}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => {
+                          if (doc.url_archivo && doc.url_archivo !== "#") {
+                            logAuditAction("Visualizó documento", doc.id, { titulo: doc.titulo, ubicacion: "dashboard" });
+                          }
+                        }}
                         className={`flex items-center gap-1.5 border border-purple-accent/30 bg-purple-accent/5 px-3 py-1.5 
                                    font-mono text-[10px] font-semibold tracking-wider text-purple-accent
                                    transition-all duration-200

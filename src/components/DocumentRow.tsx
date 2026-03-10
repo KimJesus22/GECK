@@ -8,6 +8,7 @@ import {
   Download,
   type LucideIcon,
 } from "lucide-react";
+import { logAuditAction } from "@/lib/audit";
 
 const fileTypeConfig: Record<string, { icon: LucideIcon; label: string; color: string }> = {
   pdf: { icon: FileText, label: "PDF", color: "text-red-400" },
@@ -16,6 +17,7 @@ const fileTypeConfig: Record<string, { icon: LucideIcon; label: string; color: s
 };
 
 interface DocumentRowProps {
+  id?: string;
   name: string;
   description: string;
   fileType: "pdf" | "word" | "video";
@@ -26,6 +28,7 @@ interface DocumentRowProps {
 }
 
 export default function DocumentRow({
+  id,
   name,
   description,
   fileType,
@@ -37,6 +40,12 @@ export default function DocumentRow({
   const config = fileTypeConfig[fileType];
   const Icon = config.icon;
   const fileUrl = url && url !== "#" ? url : null;
+
+  const handleAction = (accion: string) => {
+    if (id && fileUrl) {
+      logAuditAction(accion, id, { titulo: name, archivo: fileType });
+    }
+  };
 
   return (
     <>
@@ -89,6 +98,7 @@ export default function DocumentRow({
               href={fileUrl || "#"}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => handleAction("Visualizó documento")}
               className={`flex items-center gap-1.5 border border-purple-accent/30 bg-transparent
                          px-3 py-1.5 font-mono text-xs tracking-wider text-purple-accent
                          transition-all duration-200
@@ -103,6 +113,7 @@ export default function DocumentRow({
               download
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => handleAction("Descargó documento")}
               className={`flex items-center gap-1.5 border border-phosphor/20 bg-transparent
                          px-3 py-1.5 font-mono text-xs tracking-wider text-softgreen-dim
                          transition-all duration-200
@@ -155,6 +166,7 @@ export default function DocumentRow({
                 href={fileUrl || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => handleAction("Visualizó documento")}
                 className={`flex flex-1 items-center justify-center gap-1.5 border border-purple-accent/30
                            px-3 py-2 font-mono text-xs tracking-wider text-purple-accent
                            transition-all duration-200
@@ -169,6 +181,7 @@ export default function DocumentRow({
                 download
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => handleAction("Descargó documento")}
                 className={`flex flex-1 items-center justify-center gap-1.5 border border-phosphor/20
                            px-3 py-2 font-mono text-xs tracking-wider text-softgreen-dim
                            transition-all duration-200

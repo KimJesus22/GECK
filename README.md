@@ -36,10 +36,12 @@ El proyecto pone la **ciberseguridad como prioridad**:
 | 🎨 **UI/UX Geek-Chic** | Estética de terminal retro con fondo oscuro, tipografía monoespaciada, textos en verde fósforo (Fallout) y acentos en morado pastel (BTS). |
 | 🧱 **Diseño estilo bloque** | Tarjetas y componentes con esquinas rectas sin redondear, inspirados en la estética de Minecraft. |
 | 📱 **100% Responsivo** | Diseño adaptable a escritorio, tablet y móvil. Tablas se transforman en tarjetas apiladas en pantallas pequeñas. |
-| 📄 **Visor de documentos** | Tabla interactiva con íconos por tipo de archivo (PDF, Word, Video), botones de lectura y descarga. |
-| 🔐 **Login / Registro** | Sistema de autenticación con formulario centrado, toggle visual entre modos y feedback de estado. |
+| 📄 **Bóveda Dinámica (Dashboard)** | Cuadrícula (Grid) interactiva de documentos con barra de búsqueda en tiempo real, filtros por categoría y custom cards con insignias y estados "Empty State". |
+| 🔒 **Sistema de Roles y Permisos** | Protección estricta desde SQL. Perfil _`admin`_ tiene acceso total y vista exclusiva para gestión. Perfil _`evaluador`_ solo tiene de lectura (`SELECT`). |
+| 🦴 **Mejoras UX (Skeletons & Toasts)** | Animación tipo esqueleto `pulse` en carga de vistas y sistema de notificaciones globales flotantes (`sonner` Toasts) con colores temáticos del proyecto. |
+| 🚀 **Panel de Administración** | Formulario protegido para subida de archivos físicos al storage bucket, automatizado junto a registros en BD sin salir de la plataforma. |
+| 🔐 **Login / Registro** | Sistema de autenticación con formulario centrado, toggle visual entre modos y feedback de estado con asignación de rol automática. |
 | 🚀 **Landing Page** | Página de inicio pública con hero section, CTAs, estadísticas y tarjetas de beneficios. |
-| 🗂️ **Dashboard** | Panel de control con sidebar colapsable, grid de categorías y barra de estadísticas. |
 
 ---
 
@@ -49,8 +51,9 @@ El proyecto pone la **ciberseguridad como prioridad**:
 |---|---|
 | [Next.js 16](https://nextjs.org/) (App Router) | Framework React con Server Components y Turbopack |
 | [Tailwind CSS 4](https://tailwindcss.com/) | Sistema de diseño con tokens personalizados |
-| [Supabase](https://supabase.com/) | Backend as a Service (Auth, Database, Storage) |
-| [Lucide React](https://lucide.dev/) | Biblioteca de íconos SVG |
+| [Supabase](https://supabase.com/) | Backend as a Service (Auth, Database, Storage, RLS) |
+| [Lucide React](https://lucide.dev/) | Biblioteca de íconos SVG para UI corporativa |
+| [Sonner](https://sonner.emilkowal.ski/) | Manejador de notificaciones visuales emergentes (Toasts) |
 | [TypeScript](https://www.typescriptlang.org/) | Tipado estático |
 | [pnpm](https://pnpm.io/) | Gestor de paquetes rápido y eficiente |
 
@@ -58,31 +61,33 @@ El proyecto pone la **ciberseguridad como prioridad**:
 
 ## 📁 Estructura del Proyecto
 
-```
 src/
 ├── app/
 │   ├── page.tsx              # Landing Page pública
-│   ├── layout.tsx            # Root layout (fuentes, sidebar condicional)
+│   ├── layout.tsx            # Root layout con Sonner Toaster
 │   ├── globals.css           # Tema, colores, animaciones
-│   ├── dashboard/
-│   │   └── page.tsx          # Dashboard con categorías
-│   ├── normativas/
-│   │   └── page.tsx          # Vista de documentos (Supabase)
+│   ├── dashboard/page.tsx    # Cuadrícula principal de bóveda con filtros
+│   ├── admin/
+│   │   ├── subir/page.tsx    # Formulario de subida exclusiva (Admin)
+│   │   └── layout.tsx        # Route Guard SSR para perfil Admin
+│   ├── normativa/page.tsx    # (y vistas dedicadas ej. rrhh, soporte, calidad)
 │   └── login/
 │       ├── page.tsx          # Login / Registro
 │       └── layout.tsx        # Layout sin sidebar
 ├── components/
-│   ├── Sidebar.tsx           # Menú lateral con navegación
-│   ├── CategoryCard.tsx      # Tarjeta de categoría
-│   ├── DocumentRow.tsx       # Fila de documento (tabla + tarjeta móvil)
-│   ├── ConditionalSidebar.tsx # Oculta sidebar en rutas públicas
+│   ├── Sidebar.tsx           # Menú lateral dinámico según rol
+│   ├── SkeletonCard.tsx      # Bloques grises de carga interactiva (pulse)
+│   ├── DocumentRow.tsx       # Fila de documento (tabla vista tradicional)
+│   ├── ConditionalSidebar.tsx# Oculta sidebar en rutas públicas
 │   └── MainContent.tsx       # Wrapper de contenido principal
 ├── lib/
-│   ├── supabase.ts           # Cliente Supabase SSR
-│   └── types.ts              # Interfaces TypeScript
+│   ├── supabase.ts           # Cliente Supabase SSR (Servidor)
+│   ├── supabase-browser.ts   # Cliente Supabase (Cliente/Efectos)
+│   └── types.ts              # Interfaces TypeScript (Documento, Perfil)
 supabase/
 ├── schema.sql                # Tabla documentos + seed data
-└── security.sql              # Políticas RLS de solo lectura
+├── roles-policy.sql          # Triggers, Perfiles y Roles (RBAC)
+└── seed_extra.sql            # Mocks adicionales de Supabase
 ```
 
 ---
@@ -189,9 +194,14 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...TU_CLAVE_ANON
 
 > ⚠️ Reemplaza los valores con los de tu proyecto Supabase (Settings → API).
 
-### 3. Esquema de Base de Datos
+### 3. Esquema de Base de Datos y Roles
 
-Tabla `documentos` (`supabase/schema.sql`):
+El esquema (`supabase/schema.sql` y `supabase/roles-policy.sql`) implementa 2 tablas clave y Triggers asociados:
+
+**Tabla `perfiles`** (Gestión de Roles)
+Misma ID que `auth.users`. El rol genérico por defecto de "evaluador" se asigna bajo un Trigger al crear usuario nuevo en Auth Supabase. Admins deben ser designados.
+
+**Tabla `documentos`:**
 
 | Columna | Tipo | Notas |
 |---|---|---|
@@ -199,42 +209,35 @@ Tabla `documentos` (`supabase/schema.sql`):
 | `titulo` | `text` | Nombre del documento |
 | `descripcion` | `text` | Descripción breve |
 | `tipo_archivo` | `text` | `'pdf'`, `'word'` o `'video'` |
-| `url_archivo` | `text` | URL del archivo |
-| `categoria` | `text` | Ej: `'normativas'` |
-| `tamano` | `text` | Ej: `'2.4 MB'` |
+| `url_archivo` | `text` | URL original para visualizador remoto |
+| `categoria` | `text` | Ej: `'calidad'`, `'seguridad'` |
+| `tamano` | `text` | Generado de los bytes de Storage |
 | `fecha_creacion` | `timestamptz` | Auto-generado |
 
-Incluye datos seed con 8 documentos de ejemplo y habilitación de RLS con política de lectura pública.
+Incluye script de mocks (`seed.sql` & `seed_extra.sql`) con ejemplos documentales repartidos en todas las categorías.
 
 ### 4. Archivos Creados para la Integración
 
 | Archivo | Descripción |
 |---|---|
 | `src/lib/supabase.ts` | Factory function `createClient()` para Server Components |
-| `src/lib/types.ts` | Interfaz `Documento` que mapea la tabla de Supabase |
-| `src/app/normativas/page.tsx` | Async Server Component con `SELECT * FROM documentos` |
-| `supabase/schema.sql` | SQL: tabla + seed data |
-| `supabase/security.sql` | SQL: políticas RLS de solo lectura |
+| `src/lib/types.ts` | Exportación e interfaces TypeScript de las tablas |
+| `src/app/dashboard/page.tsx` | Client Component conectando BD con filtros debounced |
+| `src/app/admin/layout.tsx` | Route Protection usando cliente SSL verificando rol |
+| `supabase/schema.sql` | SQL: tabla cruda |
+| `supabase/roles-policy.sql` | SQL: Triggers Auth + Perfiles CREADOR + RLS Segura |
 
-### 5. Seguridad RLS
+### 5. Seguridad RLS y Sistema RBAC
 
-**Tabla `documentos`:**
+**Tabla `documentos` y Bucket `archivos`:**
 
-| Operación | Política |
+| Operación | Política (Admin / Evaluador) |
 |---|---|
-| ✅ `SELECT` | Permitido para `anon` y `authenticated` |
-| 🚫 `INSERT` | Bloqueado con `WITH CHECK (false)` |
-| 🚫 `UPDATE` | Bloqueado con `USING (false)` |
-| 🚫 `DELETE` | Bloqueado con `USING (false)` |
+| ✅ `SELECT` | Lectura general permitida a la red Auth autenticada |
+| 🛡️ `INSERT` | ✅ Permitido a Perfil 'admin' / 🚫 Restringido general |
+| 🛡️ `DELETE` | ✅ Permitido a Perfil 'admin' / 🚫 Restringido general |
 
-**Bucket de Storage `archivos`:**
-
-| Operación | Política |
-|---|---|
-| ✅ `SELECT` | Permitido (descargar/leer) |
-| 🚫 `INSERT` | Bloqueado |
-| 🚫 `UPDATE` | Bloqueado |
-| 🚫 `DELETE` | Bloqueado |
+_Las modificaciones o subidas se ligan únicamente a IDs vinculadas al texto plano `'admin'` en tabla perfiles._
 
 ---
 
