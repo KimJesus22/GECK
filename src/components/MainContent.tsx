@@ -8,7 +8,7 @@ export default function MainContent({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isLogin = pathname === "/login";
+  const isLogin = pathname === "/" || pathname === "/login";
 
   return (
     <main

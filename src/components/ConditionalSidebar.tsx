@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 
 export default function ConditionalSidebar() {
   const pathname = usePathname();
-  const hideSidebar = pathname === "/login";
+  const hideSidebar = pathname === "/" || pathname === "/login";
 
   if (hideSidebar) return null;
 
