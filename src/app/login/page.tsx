@@ -69,7 +69,7 @@ export default function LoginPage() {
         </div>
 
         {/* Body */}
-        <div className="px-8 py-10">
+        <div className="px-5 py-8 sm:px-8 sm:py-10">
           {/* Logo */}
           <div className="mb-8 flex flex-col items-center gap-4">
             <div

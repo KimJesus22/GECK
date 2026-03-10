@@ -7,6 +7,7 @@ import type { Documento } from "@/lib/types";
 import { toast } from "sonner";
 import SkeletonCard from "@/components/SkeletonCard";
 import { logAuditAction } from "@/lib/audit";
+import DocumentViewerModal from "@/components/DocumentViewerModal";
 
 const categoriasOpts = [
   { value: "todas", label: "Todas las Categorías" },
@@ -33,6 +34,7 @@ export default function DashboardPage() {
   const [search, setSearch] = useState("");
   const [categoria, setCategoria] = useState("todas");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [viewerDoc, setViewerDoc] = useState<Documento | null>(null);
 
   useEffect(() => {
     async function fetchDocsAndRole() {
@@ -251,13 +253,11 @@ export default function DashboardPage() {
                     </span>
                     
                     <div className="flex items-center gap-2">
-                      <a
-                        href={doc.url_archivo !== "#" ? doc.url_archivo : undefined}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
                         onClick={() => {
                           if (doc.url_archivo && doc.url_archivo !== "#") {
-                            logAuditAction("Visualizó documento", doc.id, { titulo: doc.titulo, ubicacion: "dashboard" });
+                            logAuditAction("Visualizó documento en modal", doc.id, { titulo: doc.titulo, ubicacion: "dashboard" });
+                            setViewerDoc(doc);
                           }
                         }}
                         className={`flex items-center gap-1.5 border border-purple-accent/30 bg-purple-accent/5 px-3 py-1.5 
@@ -268,7 +268,7 @@ export default function DashboardPage() {
                       >
                         <Eye className="h-3 w-3" />
                         VER
-                      </a>
+                      </button>
                       
                       {isAdmin && (
                         <button
@@ -298,12 +298,20 @@ export default function DashboardPage() {
       >
         <div
           className="h-2 w-2 rounded-full bg-phosphor"
-          style={{ animation: "glow-pulse 2s ease-in-out infinite" }}
+          style={{ animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite" }}
         />
-        <span className="font-mono text-xs tracking-wider text-softgreen-dim/60">
-          INGENIA BASE v1.0.0 — Cuadrícula de documentos dinámica
+        <span className="font-mono text-xs tracking-wider text-softgreen-dim/40">
+          Mostrando los documentos desclasificados de la bóveda
         </span>
       </footer>
+
+      <DocumentViewerModal
+        isOpen={!!viewerDoc}
+        onClose={() => setViewerDoc(null)}
+        url={viewerDoc?.url_archivo || ""}
+        title={viewerDoc?.titulo || ""}
+        type={viewerDoc?.tipo_archivo || ""}
+      />
     </div>
   );
 }

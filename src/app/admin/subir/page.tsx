@@ -110,7 +110,7 @@ export default function AdminSubirPage() {
   };
 
   return (
-    <div className="px-8 py-10 lg:px-12 lg:py-12">
+    <div className="px-5 py-8 sm:px-8 sm:py-10 md:px-12 md:py-12">
       {/* Header */}
       <header className="mb-8">
         <div className="flex items-center gap-3 mb-2">
@@ -154,7 +154,7 @@ export default function AdminSubirPage() {
         </div>
 
         {/* Form body */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-8">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-5 sm:p-8">
           {/* Título */}
           <div>
             <label className="mb-1.5 block font-mono text-[10px] tracking-[0.2em] text-softgreen-dim/60 uppercase">

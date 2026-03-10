@@ -1,5 +1,4 @@
-"use client";
-
+import { useState } from "react";
 import {
   FileText,
   FileVideo,
@@ -9,6 +8,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { logAuditAction } from "@/lib/audit";
+import DocumentViewerModal from "@/components/DocumentViewerModal";
 
 const fileTypeConfig: Record<string, { icon: LucideIcon; label: string; color: string }> = {
   pdf: { icon: FileText, label: "PDF", color: "text-red-400" },
@@ -40,10 +40,14 @@ export default function DocumentRow({
   const config = fileTypeConfig[fileType];
   const Icon = config.icon;
   const fileUrl = url && url !== "#" ? url : null;
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
 
   const handleAction = (accion: string) => {
     if (id && fileUrl) {
       logAuditAction(accion, id, { titulo: name, archivo: fileType });
+      if (accion === "Visualizó documento en modal") {
+         setIsViewerOpen(true);
+      }
     }
   };
 
@@ -94,11 +98,8 @@ export default function DocumentRow({
         {/* Actions */}
         <td className="px-4 py-4">
           <div className="flex items-center gap-2">
-            <a
-              href={fileUrl || "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => handleAction("Visualizó documento")}
+            <button
+              onClick={() => handleAction("Visualizó documento en modal")}
               className={`flex items-center gap-1.5 border border-purple-accent/30 bg-transparent
                          px-3 py-1.5 font-mono text-xs tracking-wider text-purple-accent
                          transition-all duration-200
@@ -107,7 +108,7 @@ export default function DocumentRow({
             >
               <Eye className="h-3.5 w-3.5" />
               Leer
-            </a>
+            </button>
             <a
               href={fileUrl || "#"}
               download
@@ -162,11 +163,8 @@ export default function DocumentRow({
 
             {/* Actions */}
             <div className="flex items-center gap-2">
-              <a
-                href={fileUrl || "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => handleAction("Visualizó documento")}
+              <button
+                onClick={() => handleAction("Visualizó documento en modal")}
                 className={`flex flex-1 items-center justify-center gap-1.5 border border-purple-accent/30
                            px-3 py-2 font-mono text-xs tracking-wider text-purple-accent
                            transition-all duration-200
@@ -175,7 +173,7 @@ export default function DocumentRow({
               >
                 <Eye className="h-3.5 w-3.5" />
                 Leer
-              </a>
+              </button>
               <a
                 href={fileUrl || "#"}
                 download
@@ -195,6 +193,15 @@ export default function DocumentRow({
           </div>
         </td>
       </tr>
+
+      {/* Modal Visor Componente P/ DocumentRow */}
+      <DocumentViewerModal
+        isOpen={isViewerOpen}
+        onClose={() => setIsViewerOpen(false)}
+        url={fileUrl || ""}
+        title={name}
+        type={fileType}
+      />
     </>
   );
 }

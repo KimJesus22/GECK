@@ -13,7 +13,7 @@ export default function MainContent({
   return (
     <main
       className={`min-h-screen transition-all duration-300 ${
-        isLogin ? "" : "ml-[260px]"
+        isLogin ? "" : "md:ml-[260px] pt-16 md:pt-0"
       }`}
     >
       {children}
