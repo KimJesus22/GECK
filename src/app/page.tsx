@@ -70,7 +70,7 @@ export default function LandingPage() {
                          hover:bg-purple-accent hover:text-terminal-900
                          hover:shadow-[0_0_20px_rgba(196,167,231,0.25)]"
             >
-              Registrarse
+              Crear cuenta
             </Link>
           </div>
         </div>
@@ -154,7 +154,7 @@ export default function LandingPage() {
                          sm:min-w-[220px]"
             >
               <Globe className="h-4 w-4" />
-              Solicitar Acceso
+              Crear cuenta
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>

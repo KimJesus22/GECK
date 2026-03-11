@@ -118,7 +118,7 @@ export default function LoginPage() {
               }`}
             >
               <UserPlus className="h-3.5 w-3.5" />
-              Crear Cuenta
+              Crea tu cuenta
             </button>
           </div>
 
@@ -199,7 +199,7 @@ export default function LoginPage() {
                 />
               ) : (
                 <>
-                  {mode === "login" ? "Iniciar Sesión" : "Crear Cuenta"}
+                  {mode === "login" ? "Iniciar Sesión" : "Crea tu cuenta"}
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
@@ -211,7 +211,7 @@ export default function LoginPage() {
             <p className="text-xs font-medium tracking-wider text-text-muted">
               {mode === "login"
                 ? "Solo personal autorizado. Contacta a tu administrador si no tienes cuenta."
-                : "Tu cuenta deberá ser aprobada por un administrador."}
+                : "Acceso instantáneo. No se requiere aprobación previa."}
             </p>
           </div>
         </div>
