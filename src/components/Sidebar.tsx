@@ -202,6 +202,28 @@ export default function Sidebar() {
                 {!collapsed && <span>Subir Archivo</span>}
               </Link>
               <Link
+                href="/admin/usuarios"
+                className={`
+                  group flex items-center gap-3 rounded-lg px-3 py-2.5
+                  text-sm font-medium
+                  transition-all duration-150
+                  ${
+                    pathname === "/admin/usuarios"
+                      ? "bg-accent/10 text-accent border border-accent/20"
+                      : "border border-transparent text-text-secondary hover:bg-surface-700/60 hover:text-accent"
+                  }
+                `}
+              >
+                <Users
+                  className={`h-[18px] w-[18px] shrink-0 transition-colors ${
+                    pathname === "/admin/usuarios"
+                      ? "text-accent"
+                      : "text-text-muted group-hover:text-accent"
+                  }`}
+                />
+                {!collapsed && <span>Usuarios</span>}
+              </Link>
+              <Link
                 href="/admin/logs"
                 className={`
                   group flex items-center gap-3 rounded-lg px-3 py-2.5

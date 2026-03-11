@@ -1,15 +1,35 @@
 "use client";
 
-import { useState } from "react";
-import { Shield, Lock, Eye, EyeOff, KeyRound } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Shield, Lock, Eye, EyeOff, KeyRound, Smartphone, QrCode, CheckCircle2 } from "lucide-react";
 import { createBrowserSupabaseClient } from "@/lib/supabase-browser";
 import { toast } from "sonner";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function SeguridadPage() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Estados MFA
+  const [factors, setFactors] = useState<any[]>([]);
+  const [qrCode, setQrCode] = useState<string | null>(null);
+  const [factorId, setFactorId] = useState<string | null>(null);
+  const [mfaCode, setMfaCode] = useState("");
+  const [mfaLoading, setMfaLoading] = useState(false);
+
+  // Leer estado MFA al montar
+  useEffect(() => {
+    async function loadMfa() {
+      const supabase = createBrowserSupabaseClient();
+      const { data, error } = await supabase.auth.mfa.listFactors();
+      if (!error && data) {
+        setFactors(data.all || []);
+      }
+    }
+    loadMfa();
+  }, []);
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,6 +69,62 @@ export default function SeguridadPage() {
       setLoading(false);
     }
   };
+
+  const handleMfaEnroll = async () => {
+    setMfaLoading(true);
+    try {
+      const supabase = createBrowserSupabaseClient();
+      const { data, error } = await supabase.auth.mfa.enroll({
+        factorType: "totp",
+      });
+
+      if (error) throw error;
+
+      if (data) {
+        setFactorId(data.id);
+        setQrCode(data.totp.qr_code);
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Error al iniciar enrolamiento MFA");
+    } finally {
+      setMfaLoading(false);
+    }
+  };
+
+  const handleMfaVerify = async () => {
+    if (!factorId || mfaCode.length !== 6) {
+      toast.error("Ingresa el código de 6 dígitos.");
+      return;
+    }
+
+    setMfaLoading(true);
+    try {
+      const supabase = createBrowserSupabaseClient();
+      const { data, error } = await supabase.auth.mfa.challengeAndVerify({
+        factorId,
+        code: mfaCode,
+      });
+
+      if (error) throw error;
+
+      toast.success("Autenticación de Dos Factores habilitada ✅");
+      
+      // Actualizar lista de factores
+      const { data: factorsData } = await supabase.auth.mfa.listFactors();
+      if (factorsData) setFactors(factorsData.all || []);
+      
+      // Limpiar formulario enroll
+      setQrCode(null);
+      setFactorId(null);
+      setMfaCode("");
+    } catch (error: any) {
+      toast.error(error.message || "Código incorrecto o expirado");
+    } finally {
+      setMfaLoading(false);
+    }
+  };
+
+  const hasVerifiedMfa = factors.some(f => f.status === "verified");
 
   return (
     <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12">
@@ -208,9 +284,85 @@ export default function SeguridadPage() {
                 Actualizar Contraseña
               </>
             )}
-          </button>
-        </form>
-      </div>
+            </button>
+          </form>
+        </div>
+
+        {/* --- SECCIÓN MFA --- */}
+        <div className="mt-8 max-w-2xl rounded-2xl border border-surface-600/30 bg-surface-900 shadow-xl shadow-black/10">
+          <div className="flex items-center gap-2 border-b border-surface-600/30 px-5 py-3 rounded-t-2xl">
+            <Smartphone className="h-4 w-4 text-indigo" />
+            <span className="text-xs font-semibold tracking-wide text-text-primary">
+              Autenticación de Dos Factores (MFA)
+            </span>
+          </div>
+
+          <div className="p-5 sm:p-8">
+            {hasVerifiedMfa ? (
+              <div className="flex flex-col items-center justify-center p-6 text-center border border-emerald-500/20 bg-emerald-500/5 rounded-xl">
+                <div className="h-12 w-12 rounded-full bg-emerald-500/20 flex items-center justify-center mb-4">
+                  <CheckCircle2 className="h-6 w-6 text-emerald-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-text-primary">2FA Activado</h3>
+                <p className="mt-2 text-sm text-text-secondary">
+                  Tu cuenta ya está protegida con Autenticación de Dos Factores usando una aplicación TOTP.
+                </p>
+              </div>
+            ) : qrCode && factorId ? (
+              <div className="flex flex-col items-center">
+                <p className="mb-6 text-center text-sm text-text-secondary">
+                  1. Escanea este código QR con Authy o Google Authenticator.
+                </p>
+                <div className="rounded-xl bg-white p-4 mb-6">
+                  <QRCodeSVG value={qrCode} size={200} />
+                </div>
+                
+                <p className="mb-4 text-center text-sm text-text-secondary">
+                  2. Ingresa el código de 6 dígitos generado por tu app.
+                </p>
+                <div className="flex w-full max-w-xs flex-col gap-3">
+                  <input
+                    type="text"
+                    maxLength={6}
+                    value={mfaCode}
+                    onChange={(e) => setMfaCode(e.target.value.replace(/\D/g, ''))}
+                    placeholder="000000"
+                    className="w-full text-center text-2xl tracking-[0.5em] rounded-lg border border-surface-600/40 bg-surface-800 py-3
+                               text-text-primary placeholder:text-text-muted/30
+                               outline-none transition-all focus:border-indigo/40 focus:ring-2 focus:ring-indigo/10"
+                  />
+                  <button
+                    onClick={handleMfaVerify}
+                    disabled={mfaLoading || mfaCode.length !== 6}
+                    className="w-full flex items-center justify-center rounded-lg bg-indigo px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-indigo-bright disabled:opacity-50"
+                  >
+                    {mfaLoading ? "Verificando..." : "Confirmar y Activar"}
+                  </button>
+                  <button
+                    onClick={() => { setQrCode(null); setFactorId(null); setMfaCode(""); }}
+                    className="mt-2 text-xs font-medium text-text-muted hover:text-text-primary transition-colors"
+                  >
+                    Cancelar enrolamiento
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <p className="mb-6 text-sm text-text-secondary">
+                  Añade una capa adicional de seguridad a tu cuenta pidiendo más que solo una contraseña para iniciar sesión.
+                </p>
+                <button
+                  onClick={handleMfaEnroll}
+                  disabled={mfaLoading}
+                  className="flex items-center gap-2 rounded-lg border border-surface-600/50 bg-surface-800 px-6 py-3 text-sm font-semibold text-text-primary transition-all hover:border-indigo/50 hover:bg-surface-700 disabled:opacity-50"
+                >
+                  <QrCode className="h-5 w-5 text-indigo" />
+                  {mfaLoading ? "Iniciando..." : "Configurar Aplicación Autenticadora (TOTP)"}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
 
       {/* Footer */}
       <footer

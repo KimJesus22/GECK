@@ -3,35 +3,33 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 /**
- * Route Handler seguro para servir archivos desde Supabase Storage.
+ * Route Handler seguro para servir archivos desde Supabase Storage Privado.
  *
  * Flujo:
  *   1. Verifica sesión activa del usuario (401 si no hay sesión).
  *   2. Consulta la tabla `documentos` para obtener la URL del archivo.
  *   3. Extrae la ruta interna del archivo en el bucket.
- *   4. Descarga el archivo desde Supabase Storage en el servidor.
- *   5. Devuelve el archivo al cliente con headers apropiados.
+ *   4. Genera una URL Firmada (Signed URL) válida por 60 segundos usando `createSignedUrl`.
+ *   5. Redirige al navegador del cliente hacia la URL temporal de Supabase.
  *
  * Query params:
- *   - ?download=true  → Content-Disposition: attachment (descarga)
- *   - (default)       → Content-Disposition: inline   (visualizar)
+ *   - ?download=true  → Se agrega `download: true` a la creación para forzar descarga
  */
 
-// Mapa de extensiones → Content-Type
-const mimeTypes: Record<string, string> = {
-  pdf: "application/pdf",
-  docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  doc: "application/msword",
-  mp4: "video/mp4",
-  webm: "video/webm",
-  mov: "video/quicktime",
-  png: "image/png",
-  jpg: "image/jpeg",
-  jpeg: "image/jpeg",
-};
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getMimeType(filename: string): string {
   const ext = filename.split(".").pop()?.toLowerCase() || "";
+  const mimeTypes: Record<string, string> = {
+    pdf: "application/pdf",
+    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    doc: "application/msword",
+    mp4: "video/mp4",
+    webm: "video/webm",
+    mov: "video/quicktime",
+    png: "image/png",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+  };
   return mimeTypes[ext] || "application/octet-stream";
 }
 
@@ -120,43 +118,27 @@ export async function GET(
       );
     }
 
-    // ── 5. Descargar desde Supabase Storage ──
-    const { data: fileData, error: storageError } = await supabase.storage
-      .from("archivos")
-      .download(filePath);
+    // ── 5. Generar URL Firmada (Válida por 60s) ──
+    const fileName = filePath.split("/").pop() || "archivo";
+    const isDownload = request.nextUrl.searchParams.get("download") === "true";
 
-    if (storageError || !fileData) {
-      console.error("Storage download error:", storageError);
+    const { data: signedData, error: signedError } = await supabase.storage
+      .from("archivos")
+      .createSignedUrl(filePath, 60, {
+        download: isDownload ? fileName : undefined,
+      });
+
+    if (signedError || !signedData?.signedUrl) {
+      console.error("Error generando Signed URL:", signedError);
       return NextResponse.json(
-        { error: "Error al descargar el archivo del Storage." },
+        { error: "Error al generar enlace seguro de acceso." },
         { status: 500 }
       );
     }
 
-    // ── 6. Determinar Content-Type y Disposition ──
-    const contentType = getMimeType(filePath);
-    const fileName = filePath.split("/").pop() || "archivo";
-
-    const isDownload =
-      request.nextUrl.searchParams.get("download") === "true";
-
-    const disposition = isDownload
-      ? `attachment; filename="${fileName}"`
-      : `inline; filename="${fileName}"`;
-
-    // ── 7. Devolver archivo al cliente ──
-    const arrayBuffer = await fileData.arrayBuffer();
-
-    return new NextResponse(arrayBuffer, {
-      status: 200,
-      headers: {
-        "Content-Type": contentType,
-        "Content-Disposition": disposition,
-        "Content-Length": arrayBuffer.byteLength.toString(),
-        "Cache-Control": "private, max-age=3600",
-        "X-Content-Type-Options": "nosniff",
-      },
-    });
+    // ── 6. Redirigir al cliente a la URL Segura ──
+    return NextResponse.redirect(new URL(signedData.signedUrl));
+    
   } catch (error) {
     console.error("Error en Route Handler /api/archivos:", error);
     return NextResponse.json(

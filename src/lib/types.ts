@@ -12,6 +12,8 @@ export interface Documento {
 export interface Perfil {
   id: string; // referenciado a auth.users
   rol: "admin" | "evaluador";
+  correo: string;
+  estado: "activo" | "inactivo";
   created_at: string;
 }
 
