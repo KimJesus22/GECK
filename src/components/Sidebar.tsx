@@ -23,7 +23,9 @@ import {
   Headset,
   BadgeCheck,
   Upload,
+  LogOut,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const navItems = [
   { label: "Inicio", icon: Home, href: "/dashboard" },
@@ -41,6 +43,7 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -265,6 +268,24 @@ export default function Sidebar() {
                 <span>Colapsar</span>
               </>
             )}
+          </button>
+        </div>
+
+        {/* Global Logout Button */}
+        <div className="border-t border-surface-600/30 p-3">
+          <button
+            onClick={async () => {
+              const supabase = createBrowserSupabaseClient();
+              await supabase.auth.signOut();
+              router.push("/login");
+              router.refresh();
+            }}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
+                       text-red-400 transition-all duration-150
+                       hover:bg-red-500/10 hover:text-red-300"
+          >
+            <LogOut className="h-[18px] w-[18px] shrink-0" />
+            {!collapsed && <span>Cerrar Sesión</span>}
           </button>
         </div>
       </aside>
