@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import SkeletonCard from "@/components/SkeletonCard";
 import { logAuditAction } from "@/lib/audit";
 import DocumentViewerModal from "@/components/DocumentViewerModal";
+import { getDocumentosCached, revalidateDocumentos } from "@/lib/actions";
 
 const categoriasOpts = [
   { value: "todas", label: "Todas las Categorías" },
@@ -40,28 +41,12 @@ export default function DashboardPage() {
     async function fetchDocsAndRole() {
       setLoading(true);
       try {
-        const supabase = createBrowserSupabaseClient();
-        
-        // 1. Obtener documentos
-        let query = supabase
-          .from("documentos")
-          .select("*")
-          .order("fecha_creacion", { ascending: false });
-
-        if (categoria !== "todas") {
-          query = query.eq("categoria", categoria);
-        }
-
-        if (search.trim()) {
-          query = query.ilike("titulo", `%${search}%`);
-        }
-
-        const { data: docsData, error: docsError } = await query;
-        if (!docsError && docsData) {
-          setDocuments(docsData);
-        }
+        // 1. Obtener documentos desde la caché del servidor
+        const allDocs = await getDocumentosCached();
+        setDocuments(allDocs);
 
         // 2. Verificar rol para botón "Eliminar"
+        const supabase = createBrowserSupabaseClient();
         const {
           data: { user },
         } = await supabase.auth.getUser();
@@ -77,7 +62,6 @@ export default function DashboardPage() {
             setIsAdmin(true);
           }
         }
-
       } catch (error) {
         console.error("Error al obtener datos:", error);
       } finally {
@@ -85,12 +69,15 @@ export default function DashboardPage() {
       }
     }
 
-    const timeoutId = setTimeout(() => {
-      fetchDocsAndRole();
-    }, 300);
+    fetchDocsAndRole();
+  }, []);
 
-    return () => clearTimeout(timeoutId);
-  }, [search, categoria]);
+  // Filtrado client-side (búsqueda + categoría)
+  const filtered = documents.filter((doc) => {
+    const matchesCategoria = categoria === "todas" || doc.categoria === categoria;
+    const matchesSearch = !search.trim() || doc.titulo.toLowerCase().includes(search.toLowerCase());
+    return matchesCategoria && matchesSearch;
+  });
 
   const handleDelete = async (id: string, urlArchivo: string, titulo: string) => {
     if (!window.confirm(`¿Estás seguro de eliminar "${titulo}" de la bóveda? Esta acción no se puede deshacer.`)) {
@@ -115,8 +102,9 @@ export default function DashboardPage() {
       
       if (error) throw error;
 
-      // 3. Actualizar UI
+      // 3. Actualizar UI e invalidar caché
       setDocuments(prev => prev.filter(doc => doc.id !== id));
+      await revalidateDocumentos();
       toast.success("Documento purgado del sistema 🗑️");
       
     } catch (error) {
@@ -198,7 +186,7 @@ export default function DashboardPage() {
               <SkeletonCard key={i} delay={i * 100} />
             ))}
           </div>
-        ) : documents.length === 0 ? (
+        ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-surface-600/30 bg-surface-800/30 py-24 text-center">
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-900 border border-surface-600/20">
               <FileSearch className="h-8 w-8 text-text-muted" />
@@ -210,7 +198,7 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {documents.map((doc, i) => {
+            {filtered.map((doc, i) => {
               const config = fileTypeConfig[doc.tipo_archivo] || fileTypeConfig.pdf;
               const Icon = config.icon;
               

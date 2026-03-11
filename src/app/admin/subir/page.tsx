@@ -11,6 +11,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { createBrowserSupabaseClient } from "@/lib/supabase-browser";
+import { revalidateDocumentos } from "@/lib/actions";
 
 const categorias = [
   { value: "normativas", label: "Normativas" },
@@ -93,7 +94,8 @@ export default function AdminSubirPage() {
         throw new Error(`Error al registrar documento: ${insertError.message}`);
       }
 
-      // Éxito
+      // Éxito: invalidar caché y notificar
+      await revalidateDocumentos();
       toast.success("Documento encriptado y subido a la base ✅");
 
       // Reset form
