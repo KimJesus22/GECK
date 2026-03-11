@@ -18,9 +18,31 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "INGENIA BASE — Plataforma de Conocimiento Corporativo",
+  title: {
+    template: "%s | INGENIA BASE",
+    default: "INGENIA BASE — Plataforma de Conocimiento Corporativo",
+  },
   description:
-    "Bóveda de gestión documental segura para proyectos universitarios.",
+    "Plataforma segura para el almacenamiento y organización de documentos universitarios y corporativos.",
+  openGraph: {
+    title: "INGENIA BASE - Bóveda de Gestión Documental",
+    description:
+      "Plataforma segura para el almacenamiento y organización de documentos universitarios y corporativos.",
+    url: "https://geck-beige.vercel.app/",
+    siteName: "INGENIA BASE",
+    locale: "es_MX",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "INGENIA BASE - Bóveda de Gestión Documental",
+    description:
+      "Plataforma segura para el almacenamiento y organización de documentos universitarios y corporativos.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 import { Toaster } from "sonner";
