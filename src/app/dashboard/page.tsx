@@ -216,7 +216,7 @@ export default function DashboardPage() {
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-surface-600/30 bg-surface-800">
                       <Icon className={`h-5 w-5 ${config.color}`} />
                     </div>
-                    <span className="rounded-md bg-surface-800 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-text-muted uppercase">
+                    <span className="rounded-md bg-surface-800 px-2.5 py-1.5 text-[10px] font-bold tracking-wider text-text-muted uppercase">
                       {catLabel}
                     </span>
                   </div>
@@ -242,25 +242,29 @@ export default function DashboardPage() {
                             setViewerDoc(doc);
                           }
                         }}
-                        className={`flex items-center gap-1.5 rounded-lg border border-indigo/30 bg-indigo/5 px-3 py-1.5
-                                   text-[11px] font-semibold tracking-wide text-indigo
+                        className={`flex items-center gap-1.5 rounded-lg border border-indigo/30 bg-indigo/5
+                                   min-h-[44px] px-4 py-2
+                                   text-xs font-semibold tracking-wide text-indigo
                                    transition-all duration-200
-                                   hover:bg-indigo hover:text-white hover:shadow-md hover:shadow-indigo/20
+                                   hover:bg-indigo hover:text-on-indigo hover:shadow-md hover:shadow-indigo/20
+                                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-bright focus-visible:ring-offset-2 focus-visible:ring-offset-surface-900
                                    ${doc.url_archivo === "#" ? "opacity-50 pointer-events-none" : ""}`}
                       >
-                        <Eye className="h-3 w-3" />
+                        <Eye className="h-4 w-4" />
                         Ver
                       </button>
                       
                       {isAdmin && (
                         <button
                           onClick={() => handleDelete(doc.id, doc.url_archivo, doc.titulo)}
-                          className="flex items-center gap-1.5 rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-1.5
-                                     text-[11px] font-semibold tracking-wide text-red-400
+                          className="flex items-center gap-1.5 rounded-lg border border-red-500/20 bg-red-500/5
+                                     min-h-[44px] px-4 py-2
+                                     text-xs font-semibold tracking-wide text-red-400
                                      transition-all duration-200
-                                     hover:bg-red-500 hover:text-white hover:shadow-md hover:shadow-red-500/20"
+                                     hover:bg-red-500 hover:text-white hover:shadow-md hover:shadow-red-500/20
+                                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-900"
                         >
-                          <Trash2 className="h-3 w-3" />
+                          <Trash2 className="h-4 w-4" />
                           Eliminar
                         </button>
                       )}

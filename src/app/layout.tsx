@@ -3,6 +3,7 @@ import { JetBrains_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import ConditionalSidebar from "@/components/ConditionalSidebar";
 import MainContent from "@/components/MainContent";
+import AxeCoreProvider from "@/components/AxeCoreProvider";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
@@ -46,8 +47,10 @@ export default function RootLayout({
             }
           }} 
         />
-        <ConditionalSidebar />
-        <MainContent>{children}</MainContent>
+        <AxeCoreProvider>
+          <ConditionalSidebar />
+          <MainContent>{children}</MainContent>
+        </AxeCoreProvider>
       </body>
     </html>
   );
