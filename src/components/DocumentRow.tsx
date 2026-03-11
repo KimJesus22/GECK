@@ -42,6 +42,7 @@ export default function DocumentRow({
   const config = fileTypeConfig[fileType];
   const Icon = config.icon;
   const fileUrl = url && url !== "#" ? url : null;
+  const apiUrl = id ? `/api/archivos/${id}` : null;
   const [isViewerOpen, setIsViewerOpen] = useState(false);
 
   const handleAction = (accion: string) => {
@@ -106,13 +107,13 @@ export default function DocumentRow({
                          px-3 py-1.5 text-xs font-medium text-indigo
                          transition-all duration-200
                          hover:bg-indigo hover:text-white hover:shadow-md hover:shadow-indigo/20
-                         ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
+                         ${!apiUrl ? "opacity-40 pointer-events-none" : ""}`}
             >
               <Eye className="h-3.5 w-3.5" />
               Leer
             </button>
             <a
-              href={fileUrl || "#"}
+              href={apiUrl ? `${apiUrl}?download=true` : "#"}
               download
               target="_blank"
               rel="noopener noreferrer"
@@ -121,7 +122,7 @@ export default function DocumentRow({
                          px-3 py-1.5 text-xs font-medium text-text-secondary
                          transition-all duration-200
                          hover:border-indigo/30 hover:bg-indigo/5 hover:text-indigo
-                         ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
+                         ${!apiUrl ? "opacity-40 pointer-events-none" : ""}`}
             >
               <Download className="h-3.5 w-3.5" />
               Descargar
@@ -171,13 +172,13 @@ export default function DocumentRow({
                            px-3 py-2 text-xs font-medium text-indigo
                            transition-all duration-200
                            hover:bg-indigo hover:text-white hover:shadow-md hover:shadow-indigo/20
-                           ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
+                           ${!apiUrl ? "opacity-40 pointer-events-none" : ""}`}
               >
                 <Eye className="h-3.5 w-3.5" />
                 Leer
               </button>
               <a
-                href={fileUrl || "#"}
+                href={apiUrl ? `${apiUrl}?download=true` : "#"}
                 download
                 target="_blank"
                 rel="noopener noreferrer"
@@ -186,7 +187,7 @@ export default function DocumentRow({
                            px-3 py-2 text-xs font-medium text-text-secondary
                            transition-all duration-200
                            hover:border-indigo/30 hover:bg-indigo/5 hover:text-indigo
-                           ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
+                           ${!apiUrl ? "opacity-40 pointer-events-none" : ""}`}
               >
                 <Download className="h-3.5 w-3.5" />
                 Descargar
@@ -199,7 +200,7 @@ export default function DocumentRow({
       <DocumentViewerModal
         isOpen={isViewerOpen}
         onClose={() => setIsViewerOpen(false)}
-        url={fileUrl || ""}
+        url={apiUrl || ""}
         title={name}
         type={fileType}
       />

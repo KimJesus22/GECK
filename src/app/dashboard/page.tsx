@@ -302,7 +302,7 @@ export default function DashboardPage() {
       <DocumentViewerModal
         isOpen={!!viewerDoc}
         onClose={() => setViewerDoc(null)}
-        url={viewerDoc?.url_archivo || ""}
+        url={viewerDoc ? `/api/archivos/${viewerDoc.id}` : ""}
         title={viewerDoc?.titulo || ""}
         type={viewerDoc?.tipo_archivo || ""}
       />
