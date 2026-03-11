@@ -9,8 +9,7 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('archivos', 'archivos', false)
 ON CONFLICT (id) DO UPDATE SET public = false;
 
--- Permitir que RLS funcione en los objetos
-ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+-- En Supabase la tabla storage.objects ya tiene RLS activado de fábrica, omitimos ALTER TABLE
 
 -- 2. Eliminar cualquier política previa que pueda existir en este bucket
 DROP POLICY IF EXISTS "Public Access" ON storage.objects;
