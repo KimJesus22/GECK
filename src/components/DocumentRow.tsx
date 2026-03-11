@@ -55,19 +55,19 @@ export default function DocumentRow({
 
   return (
     <>
-      {/* Desktop row (hidden on mobile) */}
+      {/* Desktop row */}
       <tr
-        className="group hidden border-b border-phosphor/8 transition-all duration-200
-                   hover:bg-terminal-600/50 md:table-row"
+        className="group hidden border-b border-surface-600/15 transition-all duration-200
+                   hover:bg-surface-700/30 md:table-row"
         style={{ animation: `fade-in-up 0.4s ease-out ${delay}ms both` }}
       >
         {/* File type icon */}
         <td className="px-4 py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center border border-phosphor/20 bg-terminal-800">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-surface-600/30 bg-surface-800">
               <Icon className={`h-5 w-5 ${config.color}`} />
             </div>
-            <span className="font-mono text-[10px] tracking-widest text-softgreen-dim/60 uppercase">
+            <span className="text-[10px] font-semibold tracking-widest text-text-muted uppercase">
               {config.label}
             </span>
           </div>
@@ -75,26 +75,26 @@ export default function DocumentRow({
 
         {/* Document name */}
         <td className="px-4 py-4">
-          <span className="font-mono text-sm font-medium tracking-wide text-softgreen transition-colors group-hover:text-purple-accent-bright">
+          <span className="text-sm font-medium text-text-primary transition-colors group-hover:text-indigo">
             {name}
           </span>
         </td>
 
         {/* Description */}
         <td className="hidden px-4 py-4 lg:table-cell">
-          <span className="text-sm leading-relaxed text-softgreen-dim/70">
+          <span className="text-sm leading-relaxed text-text-muted">
             {description}
           </span>
         </td>
 
         {/* Size */}
         <td className="hidden px-4 py-4 xl:table-cell">
-          <span className="font-mono text-xs text-softgreen-dim/50">{size}</span>
+          <span className="text-xs font-medium text-text-muted">{size}</span>
         </td>
 
         {/* Date */}
         <td className="hidden px-4 py-4 xl:table-cell">
-          <span className="font-mono text-xs text-softgreen-dim/50">{date}</span>
+          <span className="text-xs font-medium text-text-muted">{date}</span>
         </td>
 
         {/* Actions */}
@@ -102,10 +102,10 @@ export default function DocumentRow({
           <div className="flex items-center gap-2">
             <button
               onClick={() => handleAction("Visualizó documento en modal")}
-              className={`flex items-center gap-1.5 border border-purple-accent/30 bg-transparent
-                         px-3 py-1.5 font-mono text-xs tracking-wider text-purple-accent
+              className={`flex items-center gap-1.5 rounded-lg border border-indigo/30 bg-indigo/5
+                         px-3 py-1.5 text-xs font-medium text-indigo
                          transition-all duration-200
-                         hover:bg-purple-accent hover:text-terminal-900 hover:shadow-[0_0_16px_rgba(196,167,231,0.25)]
+                         hover:bg-indigo hover:text-white hover:shadow-md hover:shadow-indigo/20
                          ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
             >
               <Eye className="h-3.5 w-3.5" />
@@ -117,10 +117,10 @@ export default function DocumentRow({
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => handleAction("Descargó documento")}
-              className={`flex items-center gap-1.5 border border-phosphor/20 bg-transparent
-                         px-3 py-1.5 font-mono text-xs tracking-wider text-softgreen-dim
+              className={`flex items-center gap-1.5 rounded-lg border border-surface-600/30
+                         px-3 py-1.5 text-xs font-medium text-text-secondary
                          transition-all duration-200
-                         hover:border-purple-accent/40 hover:bg-purple-glow hover:text-purple-accent
+                         hover:border-indigo/30 hover:bg-indigo/5 hover:text-indigo
                          ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
             >
               <Download className="h-3.5 w-3.5" />
@@ -130,35 +130,35 @@ export default function DocumentRow({
         </td>
       </tr>
 
-      {/* Mobile card (hidden on desktop) */}
+      {/* Mobile card */}
       <tr
         className="md:hidden"
         style={{ animation: `fade-in-up 0.4s ease-out ${delay}ms both` }}
       >
         <td colSpan={6} className="p-0 pb-3">
-          <div className="border border-phosphor/15 bg-terminal-700 p-4">
-            {/* Top: icon + name + badge */}
+          <div className="rounded-xl border border-surface-600/20 bg-surface-800 p-4">
+            {/* Top */}
             <div className="flex items-start gap-3 mb-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center border border-phosphor/20 bg-terminal-800">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-surface-600/30 bg-surface-900">
                 <Icon className={`h-5 w-5 ${config.color}`} />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="font-mono text-sm font-medium tracking-wide text-softgreen truncate">
+                  <span className="text-sm font-medium text-text-primary truncate">
                     {name}
                   </span>
-                  <span className="font-mono text-[10px] tracking-widest text-softgreen-dim/50 uppercase shrink-0">
+                  <span className="text-[10px] font-semibold tracking-widest text-text-muted uppercase shrink-0">
                     {config.label}
                   </span>
                 </div>
-                <p className="text-xs leading-relaxed text-softgreen-dim/70">
+                <p className="text-xs leading-relaxed text-text-muted">
                   {description}
                 </p>
               </div>
             </div>
 
             {/* Meta */}
-            <div className="flex items-center gap-4 mb-3 text-softgreen-dim/40 font-mono text-[10px] tracking-wider">
+            <div className="flex items-center gap-4 mb-3 text-text-muted text-[10px] font-medium tracking-wider">
               <span>{size}</span>
               <span>{date}</span>
             </div>
@@ -167,10 +167,10 @@ export default function DocumentRow({
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handleAction("Visualizó documento en modal")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border border-purple-accent/30
-                           px-3 py-2 font-mono text-xs tracking-wider text-purple-accent
+                className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-indigo/30
+                           px-3 py-2 text-xs font-medium text-indigo
                            transition-all duration-200
-                           hover:bg-purple-accent hover:text-terminal-900 hover:shadow-[0_0_16px_rgba(196,167,231,0.25)]
+                           hover:bg-indigo hover:text-white hover:shadow-md hover:shadow-indigo/20
                            ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
               >
                 <Eye className="h-3.5 w-3.5" />
@@ -182,10 +182,10 @@ export default function DocumentRow({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleAction("Descargó documento")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border border-phosphor/20
-                           px-3 py-2 font-mono text-xs tracking-wider text-softgreen-dim
+                className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-surface-600/30
+                           px-3 py-2 text-xs font-medium text-text-secondary
                            transition-all duration-200
-                           hover:border-purple-accent/40 hover:bg-purple-glow hover:text-purple-accent
+                           hover:border-indigo/30 hover:bg-indigo/5 hover:text-indigo
                            ${!fileUrl ? "opacity-40 pointer-events-none" : ""}`}
               >
                 <Download className="h-3.5 w-3.5" />
@@ -196,7 +196,6 @@ export default function DocumentRow({
         </td>
       </tr>
 
-      {/* Modal Visor Componente P/ DocumentRow */}
       <DocumentViewerModal
         isOpen={isViewerOpen}
         onClose={() => setIsViewerOpen(false)}

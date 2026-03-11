@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, FileSearch, Eye, Trash2, FileText, FileVideo, FileType, type LucideIcon } from "lucide-react";
+import { Search, FileSearch, Eye, Trash2, FileText, FileVideo, FileType, Filter, type LucideIcon } from "lucide-react";
 import { createBrowserSupabaseClient } from "@/lib/supabase-browser";
 import type { Documento } from "@/lib/types";
 import { toast } from "sonner";
@@ -126,69 +126,63 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="px-8 py-10 lg:px-12 lg:py-12">
+    <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12">
       {/* Header */}
       <header className="mb-10">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="h-px flex-1 max-w-[40px] bg-phosphor/40" />
-          <span className="font-mono text-xs tracking-[0.3em] text-phosphor-dim uppercase">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="h-1.5 w-1.5 rounded-full bg-accent" />
+          <span className="text-xs font-semibold tracking-widest text-accent uppercase">
             Sistema Activo
           </span>
         </div>
         <h1
-          className="font-mono text-3xl font-bold tracking-tight text-softgreen lg:text-4xl"
+          className="text-3xl font-bold tracking-tight text-text-primary lg:text-4xl"
           style={{ animation: "fade-in-up 0.5s ease-out both" }}
         >
           Bienvenido a{" "}
-          <span
-            className="text-phosphor"
-            style={{ textShadow: "0 0 20px rgba(57,255,20,0.35)" }}
-          >
+          <span className="text-accent">
             INGENIA BASE
           </span>
-          <span
-            className="inline-block w-[3px] h-8 bg-phosphor ml-1 align-middle"
-            style={{ animation: "cursor-blink 1s step-end infinite" }}
-          />
         </h1>
         <p
-          className="mt-3 max-w-2xl text-base leading-relaxed text-softgreen-dim"
+          className="mt-3 max-w-2xl text-base leading-relaxed text-text-secondary"
           style={{ animation: "fade-in-up 0.5s ease-out 100ms both" }}
         >
-          Tu central de documentación corporativa. Filtra y explora los registros disponibles en la base de datos.
+          Tu central de documentación corporativa. Filtra y explora los registros disponibles.
         </p>
       </header>
 
       {/* Toolbar (Search & Filter) */}
       <div
-        className="mb-8 flex flex-col gap-4 border border-phosphor/15 bg-terminal-900 p-4 sm:flex-row sm:items-center sm:justify-between"
+        className="mb-8 flex flex-col gap-3 rounded-xl border border-surface-600/30 bg-surface-900 p-4 sm:flex-row sm:items-center sm:justify-between"
         style={{ animation: "fade-in-up 0.5s ease-out 200ms both" }}
       >
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-softgreen-dim/50" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar por título..."
-            className="w-full border border-phosphor/15 bg-terminal-800 py-3 pl-10 pr-4
-                       font-mono text-sm text-softgreen placeholder:text-softgreen-dim/40
+            className="w-full rounded-lg border border-surface-600/40 bg-surface-800 py-3 pl-10 pr-4
+                       text-sm text-text-primary placeholder:text-text-muted/60
                        outline-none transition-all
-                       focus:border-purple-accent/40 focus:shadow-[0_0_12px_rgba(196,167,231,0.1)]"
+                       focus:border-indigo/40 focus:ring-2 focus:ring-indigo/10"
           />
         </div>
         
-        <div className="w-full sm:w-64">
+        <div className="relative w-full sm:w-64">
+          <Filter className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted pointer-events-none" />
           <select
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
-            className="w-full border border-phosphor/15 bg-terminal-800 py-3 px-4
-                       font-mono text-sm text-softgreen
+            className="w-full rounded-lg border border-surface-600/40 bg-surface-800 py-3 pl-10 pr-4
+                       text-sm text-text-primary
                        outline-none transition-all appearance-none cursor-pointer
-                       focus:border-purple-accent/40 focus:shadow-[0_0_12px_rgba(196,167,231,0.1)]"
+                       focus:border-indigo/40 focus:ring-2 focus:ring-indigo/10"
           >
             {categoriasOpts.map((opt) => (
-              <option key={opt.value} value={opt.value} className="bg-terminal-900 text-softgreen">
+              <option key={opt.value} value={opt.value} className="bg-surface-950 text-text-primary">
                 {opt.label}
               </option>
             ))}
@@ -205,13 +199,13 @@ export default function DashboardPage() {
             ))}
           </div>
         ) : documents.length === 0 ? (
-          <div className="flex flex-col items-center justify-center border border-dashed border-phosphor/20 bg-terminal-800/30 py-24 text-center">
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-terminal-900 border border-phosphor/10">
-              <FileSearch className="h-8 w-8 text-phosphor/50" />
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-surface-600/30 bg-surface-800/30 py-24 text-center">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-900 border border-surface-600/20">
+              <FileSearch className="h-8 w-8 text-text-muted" />
             </div>
-            <h3 className="font-mono text-lg font-bold text-softgreen">Sin resultados</h3>
-            <p className="mt-2 text-sm text-softgreen-dim/60 max-w-sm">
-              No se encontraron registros en la base de datos que coincidan con los filtros actuales.
+            <h3 className="text-lg font-bold text-text-primary">Sin resultados</h3>
+            <p className="mt-2 text-sm text-text-muted max-w-sm">
+              No se encontraron registros que coincidan con los filtros actuales.
             </p>
           </div>
         ) : (
@@ -225,30 +219,30 @@ export default function DashboardPage() {
               return (
                 <div
                   key={doc.id}
-                  className="group relative flex flex-col border border-phosphor/20 bg-terminal-900 p-6
+                  className="group relative flex flex-col rounded-xl border border-surface-600/30 bg-surface-900 p-6
                              transition-all duration-300
-                             hover:border-phosphor hover:shadow-[0_0_20px_rgba(57,255,20,0.1)]"
+                             hover:border-indigo/30 hover:shadow-lg hover:shadow-indigo/5"
                   style={{ animation: `fade-in-up 0.4s ease-out ${300 + i * 50}ms both` }}
                 >
                   <div className="mb-4 flex items-start justify-between gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-phosphor/20 bg-terminal-800">
-                      <Icon className={`h-6 w-6 ${config.color}`} />
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-surface-600/30 bg-surface-800">
+                      <Icon className={`h-5 w-5 ${config.color}`} />
                     </div>
-                    <span className="border border-phosphor/30 bg-terminal-800 px-2.5 py-1 font-mono text-[9px] tracking-wider text-softgreen-dim/80 uppercase">
+                    <span className="rounded-md bg-surface-800 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-text-muted uppercase">
                       {catLabel}
                     </span>
                   </div>
                   
-                  <h3 className="mb-2 font-mono text-base font-semibold text-softgreen transition-colors group-hover:text-phosphor line-clamp-2">
+                  <h3 className="mb-2 text-base font-semibold text-text-primary transition-colors group-hover:text-indigo line-clamp-2">
                     {doc.titulo}
                   </h3>
                   
-                  <p className="mb-6 flex-1 text-xs leading-relaxed text-softgreen-dim/70 line-clamp-3">
+                  <p className="mb-6 flex-1 text-xs leading-relaxed text-text-muted line-clamp-3">
                     {doc.descripcion}
                   </p>
                   
-                  <div className="mt-auto flex items-center justify-between border-t border-phosphor/10 pt-4">
-                    <span className="font-mono text-[10px] text-softgreen-dim/50">
+                  <div className="mt-auto flex items-center justify-between border-t border-surface-600/20 pt-4">
+                    <span className="text-[10px] font-medium text-text-muted">
                       {doc.fecha_creacion.split("T")[0]}
                     </span>
                     
@@ -260,26 +254,26 @@ export default function DashboardPage() {
                             setViewerDoc(doc);
                           }
                         }}
-                        className={`flex items-center gap-1.5 border border-purple-accent/30 bg-purple-accent/5 px-3 py-1.5 
-                                   font-mono text-[10px] font-semibold tracking-wider text-purple-accent
+                        className={`flex items-center gap-1.5 rounded-lg border border-indigo/30 bg-indigo/5 px-3 py-1.5
+                                   text-[11px] font-semibold tracking-wide text-indigo
                                    transition-all duration-200
-                                   hover:bg-purple-accent hover:text-terminal-900 hover:shadow-[0_0_16px_rgba(196,167,231,0.3)]
+                                   hover:bg-indigo hover:text-white hover:shadow-md hover:shadow-indigo/20
                                    ${doc.url_archivo === "#" ? "opacity-50 pointer-events-none" : ""}`}
                       >
                         <Eye className="h-3 w-3" />
-                        VER
+                        Ver
                       </button>
                       
                       {isAdmin && (
                         <button
                           onClick={() => handleDelete(doc.id, doc.url_archivo, doc.titulo)}
-                          className="flex items-center gap-1.5 border border-red-500/30 bg-red-500/5 px-3 py-1.5
-                                     font-mono text-[10px] font-semibold tracking-wider text-red-500
+                          className="flex items-center gap-1.5 rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-1.5
+                                     text-[11px] font-semibold tracking-wide text-red-400
                                      transition-all duration-200
-                                     hover:bg-red-500 hover:text-terminal-900 hover:shadow-[0_0_16px_rgba(239,68,68,0.3)]"
+                                     hover:bg-red-500 hover:text-white hover:shadow-md hover:shadow-red-500/20"
                         >
                           <Trash2 className="h-3 w-3" />
-                          ELIMINAR
+                          Eliminar
                         </button>
                       )}
                     </div>
@@ -293,15 +287,15 @@ export default function DashboardPage() {
 
       {/* Footer */}
       <footer
-        className="mt-12 flex items-center gap-3 border-t border-phosphor/10 pt-6"
+        className="mt-12 flex items-center gap-3 border-t border-surface-600/20 pt-6"
         style={{ animation: "fade-in-up 0.5s ease-out 800ms both" }}
       >
         <div
-          className="h-2 w-2 rounded-full bg-phosphor"
+          className="h-2 w-2 rounded-full bg-accent"
           style={{ animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite" }}
         />
-        <span className="font-mono text-xs tracking-wider text-softgreen-dim/40">
-          Mostrando los documentos desclasificados de la bóveda
+        <span className="text-xs font-medium text-text-muted/60">
+          Mostrando documentos disponibles en la plataforma
         </span>
       </footer>
 

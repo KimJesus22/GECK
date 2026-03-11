@@ -113,24 +113,24 @@ export default function AdminSubirPage() {
     <div className="px-5 py-8 sm:px-8 sm:py-10 md:px-12 md:py-12">
       {/* Header */}
       <header className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="h-px flex-1 max-w-[40px] bg-phosphor/40" />
-          <span className="font-mono text-xs tracking-[0.3em] text-red-400/80 uppercase">
-            ⚠ Panel de Administración
+        <div className="flex items-center gap-2 mb-3">
+          <div className="h-1.5 w-1.5 rounded-full bg-red-400" />
+          <span className="text-xs font-semibold tracking-widest text-red-400/80 uppercase">
+            Panel de Administración
           </span>
         </div>
         <div
           className="flex items-center gap-4"
           style={{ animation: "fade-in-up 0.5s ease-out both" }}
         >
-          <div className="flex h-14 w-14 items-center justify-center border border-purple-accent/30 bg-terminal-800">
-            <Upload className="h-7 w-7 text-purple-accent" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-accent/20 bg-accent/10">
+            <Upload className="h-7 w-7 text-accent" />
           </div>
           <div>
-            <h1 className="font-mono text-2xl font-bold tracking-tight text-softgreen lg:text-3xl">
+            <h1 className="text-2xl font-bold tracking-tight text-text-primary lg:text-3xl">
               Subir Documento
             </h1>
-            <p className="mt-1 text-sm text-softgreen-dim">
+            <p className="mt-1 text-sm text-text-secondary">
               Sube archivos al Storage y regístralos automáticamente en la base
               de datos.
             </p>
@@ -140,15 +140,15 @@ export default function AdminSubirPage() {
 
       {/* Form card */}
       <div
-        className="max-w-2xl border border-phosphor/15 bg-terminal-900"
+        className="max-w-2xl rounded-2xl border border-surface-600/30 bg-surface-900"
         style={{ animation: "fade-in-up 0.5s ease-out 100ms both" }}
       >
-        {/* Terminal bar */}
-        <div className="flex items-center gap-2 border-b border-phosphor/10 px-5 py-3">
-          <div className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
-          <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/60" />
-          <div className="h-2.5 w-2.5 rounded-full bg-green-500/60" />
-          <span className="ml-2 font-mono text-[10px] tracking-[0.3em] text-softgreen-dim/50 uppercase">
+        {/* Header bar */}
+        <div className="flex items-center gap-2 border-b border-surface-600/30 px-5 py-3 rounded-t-2xl">
+          <div className="h-2.5 w-2.5 rounded-full bg-red-500/50" />
+          <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/50" />
+          <div className="h-2.5 w-2.5 rounded-full bg-green-500/50" />
+          <span className="ml-2 text-[10px] font-medium tracking-[0.3em] text-text-muted uppercase">
             admin://subir-documento
           </span>
         </div>
@@ -157,28 +157,28 @@ export default function AdminSubirPage() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-5 sm:p-8">
           {/* Título */}
           <div>
-            <label className="mb-1.5 block font-mono text-[10px] tracking-[0.2em] text-softgreen-dim/60 uppercase">
+            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
               Título del Documento
             </label>
             <div className="relative">
-              <FileText className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-softgreen-dim/40" />
+              <FileText className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
               <input
                 type="text"
                 required
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
                 placeholder="Ej: NOM-003 Manual de Operaciones"
-                className="w-full border border-phosphor/15 bg-terminal-800 py-3 pl-10 pr-4
-                           font-mono text-sm text-softgreen placeholder:text-softgreen-dim/30
+                className="w-full rounded-lg border border-surface-600/40 bg-surface-800 py-3 pl-10 pr-4
+                           text-sm text-text-primary placeholder:text-text-muted/60
                            outline-none transition-all
-                           focus:border-purple-accent/40 focus:shadow-[0_0_12px_rgba(196,167,231,0.1)]"
+                           focus:border-indigo/40 focus:ring-2 focus:ring-indigo/10"
               />
             </div>
           </div>
 
           {/* Descripción */}
           <div>
-            <label className="mb-1.5 block font-mono text-[10px] tracking-[0.2em] text-softgreen-dim/60 uppercase">
+            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
               Descripción Breve
             </label>
             <textarea
@@ -187,31 +187,31 @@ export default function AdminSubirPage() {
               onChange={(e) => setDescripcion(e.target.value)}
               placeholder="Describe brevemente el contenido del documento..."
               rows={3}
-              className="w-full border border-phosphor/15 bg-terminal-800 py-3 px-4
-                         font-mono text-sm text-softgreen placeholder:text-softgreen-dim/30
+              className="w-full rounded-lg border border-surface-600/40 bg-surface-800 py-3 px-4
+                         text-sm text-text-primary placeholder:text-text-muted/60
                          outline-none transition-all resize-none
-                         focus:border-purple-accent/40 focus:shadow-[0_0_12px_rgba(196,167,231,0.1)]"
+                         focus:border-indigo/40 focus:ring-2 focus:ring-indigo/10"
             />
           </div>
 
           {/* Categoría */}
           <div>
-            <label className="mb-1.5 block font-mono text-[10px] tracking-[0.2em] text-softgreen-dim/60 uppercase">
+            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
               Categoría
             </label>
             <select
               value={categoria}
               onChange={(e) => setCategoria(e.target.value)}
-              className="w-full border border-phosphor/15 bg-terminal-800 py-3 px-4
-                         font-mono text-sm text-softgreen
+              className="w-full rounded-lg border border-surface-600/40 bg-surface-800 py-3 px-4
+                         text-sm text-text-primary
                          outline-none transition-all appearance-none
-                         focus:border-purple-accent/40 focus:shadow-[0_0_12px_rgba(196,167,231,0.1)]"
+                         focus:border-indigo/40 focus:ring-2 focus:ring-indigo/10"
             >
               {categorias.map((cat) => (
                 <option
                   key={cat.value}
                   value={cat.value}
-                  className="bg-terminal-900 text-softgreen"
+                  className="bg-surface-950 text-text-primary"
                 >
                   {cat.label}
                 </option>
@@ -221,36 +221,36 @@ export default function AdminSubirPage() {
 
           {/* Archivo */}
           <div>
-            <label className="mb-1.5 block font-mono text-[10px] tracking-[0.2em] text-softgreen-dim/60 uppercase">
+            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
               Archivo (PDF, DOCX, MP4)
             </label>
             <div
-              className={`relative flex items-center gap-3 border bg-terminal-800 px-4 py-4 transition-all cursor-pointer
+              className={`relative flex items-center gap-3 rounded-lg border bg-surface-800 px-4 py-4 transition-all cursor-pointer
                           ${
                             archivo
-                              ? "border-phosphor/30"
-                              : "border-dashed border-phosphor/15 hover:border-phosphor/25"
+                              ? "border-accent/30"
+                              : "border-dashed border-surface-600/30 hover:border-surface-500"
                           }`}
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload
                 className={`h-5 w-5 shrink-0 ${
-                  archivo ? "text-phosphor" : "text-softgreen-dim/40"
+                  archivo ? "text-accent" : "text-text-muted"
                 }`}
               />
               <div className="flex-1 min-w-0">
                 {archivo ? (
                   <div>
-                    <p className="font-mono text-sm text-softgreen truncate">
+                    <p className="text-sm text-text-primary truncate">
                       {archivo.name}
                     </p>
-                    <p className="font-mono text-[10px] text-softgreen-dim/50">
+                    <p className="text-[10px] text-text-muted">
                       {formatFileSize(archivo.size)} —{" "}
                       {getFileType(archivo.name).toUpperCase()}
                     </p>
                   </div>
                 ) : (
-                  <p className="font-mono text-sm text-softgreen-dim/40">
+                  <p className="text-sm text-text-muted">
                     Click para seleccionar archivo...
                   </p>
                 )}
@@ -269,13 +269,13 @@ export default function AdminSubirPage() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 flex items-center justify-center gap-3 border border-purple-accent/40
-                       bg-purple-accent/10 py-4 font-mono text-sm font-semibold tracking-wider
-                       text-purple-accent transition-all duration-200
-                       hover:bg-purple-accent hover:text-terminal-900
-                       hover:shadow-[0_0_24px_rgba(196,167,231,0.3)]
+            className="mt-2 flex items-center justify-center gap-3 rounded-lg border border-indigo/30
+                       bg-indigo/10 py-4 text-sm font-semibold tracking-wider
+                       text-indigo transition-all duration-200
+                       hover:bg-indigo hover:text-white
+                       hover:shadow-lg hover:shadow-indigo/20
                        disabled:opacity-50 disabled:cursor-not-allowed
-                       disabled:hover:bg-purple-accent/10 disabled:hover:text-purple-accent"
+                       disabled:hover:bg-indigo/10 disabled:hover:text-indigo"
           >
             {loading ? (
               <>
@@ -297,11 +297,11 @@ export default function AdminSubirPage() {
 
       {/* Footer */}
       <footer
-        className="mt-8 flex items-center gap-3 border-t border-phosphor/10 pt-6"
+        className="mt-8 flex items-center gap-3 border-t border-surface-600/20 pt-6"
         style={{ animation: "fade-in-up 0.5s ease-out 800ms both" }}
       >
-        <Terminal className="h-3.5 w-3.5 text-red-400/50" />
-        <span className="font-mono text-xs tracking-wider text-softgreen-dim/40">
+        <div className="h-1.5 w-1.5 rounded-full bg-red-400/50" />
+        <span className="text-xs font-medium text-text-muted">
           Acceso restringido — Solo administradores autorizados
         </span>
       </footer>
