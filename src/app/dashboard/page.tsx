@@ -189,7 +189,7 @@ export default function DashboardPage() {
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-surface-600/30 bg-surface-800/30 py-24 text-center">
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-900 border border-surface-600/20">
-              <FileSearch className="h-8 w-8 text-text-muted" />
+              <FileSearch className="h-8 w-8 text-text-muted" aria-hidden="true" />
             </div>
             <h3 className="text-lg font-bold text-text-primary">Sin resultados</h3>
             <p className="mt-2 text-sm text-text-muted max-w-sm">
@@ -214,9 +214,9 @@ export default function DashboardPage() {
                 >
                   <div className="mb-4 flex items-start justify-between gap-4">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-surface-600/30 bg-surface-800">
-                      <Icon className={`h-5 w-5 ${config.color}`} />
+                      <Icon className={`h-5 w-5 ${config.color}`} aria-hidden="true" />
                     </div>
-                    <span className="rounded-md bg-surface-800 px-2.5 py-1.5 text-[10px] font-bold tracking-wider text-text-muted uppercase">
+                    <span className="rounded-md bg-surface-800 px-2.5 py-1.5 text-xs font-bold tracking-wider text-text-muted uppercase">
                       {catLabel}
                     </span>
                   </div>
@@ -230,7 +230,7 @@ export default function DashboardPage() {
                   </p>
                   
                   <div className="mt-auto flex items-center justify-between border-t border-surface-600/20 pt-4">
-                    <span className="text-[10px] font-medium text-text-muted">
+                    <span className="text-xs font-medium text-text-muted">
                       {doc.fecha_creacion.split("T")[0]}
                     </span>
                     
@@ -250,7 +250,7 @@ export default function DashboardPage() {
                                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-bright focus-visible:ring-offset-2 focus-visible:ring-offset-surface-900
                                    ${doc.url_archivo === "#" ? "opacity-50 pointer-events-none" : ""}`}
                       >
-                        <Eye className="h-4 w-4" />
+                        <Eye className="h-4 w-4" aria-hidden="true" />
                         Ver
                       </button>
                       
@@ -264,7 +264,7 @@ export default function DashboardPage() {
                                      hover:bg-red-500 hover:text-white hover:shadow-md hover:shadow-red-500/20
                                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-900"
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-4 w-4" aria-hidden="true" />
                           Eliminar
                         </button>
                       )}

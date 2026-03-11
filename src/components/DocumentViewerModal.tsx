@@ -52,8 +52,8 @@ export default function DocumentViewerModal({ isOpen, onClose, url, title, type 
         <div className="flex shrink-0 items-center justify-between border-b border-surface-600/30 bg-surface-900 px-4 py-3 sm:px-6 rounded-t-2xl">
           <div className="flex items-center gap-3 overflow-hidden">
             <div className="flex items-center gap-2 rounded-lg border border-surface-600/30 bg-surface-800 px-2.5 py-1.5">
-              <Icon className="h-4 w-4 text-accent" />
-              <span className="text-[10px] font-semibold tracking-widest text-text-muted uppercase">
+              <Icon className="h-4 w-4 text-accent" aria-hidden="true" />
+              <span className="text-xs font-semibold tracking-widest text-text-muted uppercase">
                 {type}
               </span>
             </div>
@@ -79,7 +79,7 @@ export default function DocumentViewerModal({ isOpen, onClose, url, title, type 
               <span className="hidden text-xs font-medium text-text-muted group-hover:text-indigo sm:inline">
                 Cerrar
               </span>
-              <X className="h-4 w-4 text-text-muted group-hover:text-indigo" />
+              <X className="h-4 w-4 text-text-muted group-hover:text-indigo" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -105,8 +105,8 @@ export default function DocumentViewerModal({ isOpen, onClose, url, title, type 
         </div>
         
         {/* Footer */}
-        <div className="shrink-0 border-t border-surface-600/30 bg-surface-900 px-4 py-2 text-[10px] text-text-muted/40 tracking-widest flex items-center gap-2 rounded-b-2xl">
-            <LayoutDashboard className="w-3 h-3 text-accent/40" />
+        <div className="shrink-0 border-t border-surface-600/30 bg-surface-900 px-4 py-2 text-xs text-text-muted/40 tracking-widest flex items-center gap-2 rounded-b-2xl">
+            <LayoutDashboard className="w-3 h-3 text-accent/40" aria-hidden="true" />
             <span>INGENIA BASE — Visor Seguro</span>
         </div>
       </div>

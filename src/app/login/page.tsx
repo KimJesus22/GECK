@@ -63,7 +63,7 @@ export default function LoginPage() {
           <div className="h-2.5 w-2.5 rounded-full bg-red-500/50" />
           <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/50" />
           <div className="h-2.5 w-2.5 rounded-full bg-green-500/50" />
-          <span className="ml-2 text-[10px] font-medium tracking-[0.3em] text-text-muted uppercase">
+          <span className="ml-2 text-xs font-medium tracking-[0.3em] text-text-muted uppercase">
             {mode === "login" ? "auth://login" : "auth://registro"}
           </span>
         </div>
@@ -84,7 +84,7 @@ export default function LoginPage() {
               <h1 className="text-xl font-bold tracking-wide text-text-primary">
                 INGENIA BASE
               </h1>
-              <p className="mt-1 text-[10px] font-medium tracking-[0.25em] text-text-muted uppercase">
+              <p className="mt-1 text-xs font-medium tracking-[0.25em] text-text-muted uppercase">
                 Acceso Restringido
               </p>
             </div>
@@ -126,7 +126,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             {/* Email */}
             <div>
-              <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+              <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
                 Correo electrónico
               </label>
               <div className="relative">
@@ -147,7 +147,7 @@ export default function LoginPage() {
 
             {/* Password */}
             <div>
-              <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+              <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
                 Contraseña
               </label>
               <div className="relative">
@@ -208,7 +208,7 @@ export default function LoginPage() {
 
           {/* Footer note */}
           <div className="mt-8 border-t border-surface-600/30 pt-4 text-center">
-            <p className="text-[10px] font-medium tracking-wider text-text-muted">
+            <p className="text-xs font-medium tracking-wider text-text-muted">
               {mode === "login"
                 ? "Solo personal autorizado. Contacta a tu administrador si no tienes cuenta."
                 : "Tu cuenta deberá ser aprobada por un administrador."}
@@ -223,7 +223,7 @@ export default function LoginPage() {
           className="h-1.5 w-1.5 rounded-full bg-accent"
           style={{ animation: "glow-pulse 2s ease-in-out infinite" }}
         />
-        <span className="text-[10px] font-medium tracking-wider text-text-muted/60">
+        <span className="text-xs font-medium tracking-wider text-text-muted/60">
           INGENIA BASE v1.0.0
         </span>
       </div>

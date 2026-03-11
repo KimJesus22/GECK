@@ -66,20 +66,20 @@ export default async function AdminLogsPage() {
             <div className="h-2.5 w-2.5 rounded-full bg-red-500/50" />
             <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/50" />
             <div className="h-2.5 w-2.5 rounded-full bg-green-500/50" />
-            <span className="ml-2 text-[10px] font-medium tracking-[0.3em] text-text-muted uppercase">
+            <span className="ml-2 text-xs font-medium tracking-[0.3em] text-text-muted uppercase">
               admin://logs_acceso
             </span>
           </div>
           <div className="flex items-center gap-2 text-accent animate-pulse">
             <Activity className="h-4 w-4" />
-            <span className="text-[10px] font-semibold tracking-widest uppercase">Live Tracking</span>
+            <span className="text-xs font-semibold tracking-widest uppercase">Live Tracking</span>
           </div>
         </div>
 
         {/* Logs Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="border-b border-surface-600/20 bg-surface-800/50 text-[11px] font-semibold tracking-wider uppercase text-text-muted">
+            <thead className="border-b border-surface-600/20 bg-surface-800/50 text-xs font-semibold tracking-wider uppercase text-text-muted">
               <tr>
                 <th className="px-5 py-4">Fecha / Hora</th>
                 <th className="px-5 py-4">Usuario</th>
@@ -120,7 +120,7 @@ export default async function AdminLogsPage() {
                       <td className="px-5 py-4 whitespace-nowrap">
                         <div className="flex flex-col">
                           <span className="text-xs font-medium text-text-primary">{formattedDate}</span>
-                          <span className="text-[10px] text-text-muted">{formattedTime} hrs</span>
+                          <span className="text-xs text-text-muted">{formattedTime} hrs</span>
                         </div>
                       </td>
                       
@@ -131,7 +131,7 @@ export default async function AdminLogsPage() {
                       </td>
                       
                       <td className="px-5 py-4">
-                        <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider
+                        <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold uppercase tracking-wider
                                        ${log.accion.includes('Descargó') 
                                           ? 'border border-accent/20 bg-accent/5 text-accent' 
                                           : 'border border-indigo/20 bg-indigo/5 text-indigo'}`}>
@@ -145,12 +145,12 @@ export default async function AdminLogsPage() {
                             <span className="text-sm text-text-secondary">
                               {log.detalles.titulo}
                             </span>
-                            <span className="text-[10px] font-medium text-text-muted uppercase mt-0.5">
+                            <span className="text-xs font-medium text-text-muted uppercase mt-0.5">
                               ID: {log.documento_id?.split('-')[0] || "N/A"} • Tipo: {log.detalles.archivo || "N/A"}
                             </span>
                           </div>
                         ) : (
-                          <span className="text-[10px] text-text-muted/60 italic">Sin metadata de documento.</span>
+                          <span className="text-xs text-text-muted/60 italic">Sin metadata de documento.</span>
                         )}
                       </td>
                     </tr>

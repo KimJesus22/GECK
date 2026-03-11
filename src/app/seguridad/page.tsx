@@ -94,12 +94,12 @@ export default async function SeguridadPage() {
         <table className="w-full">
           <thead className="hidden md:table-header-group">
             <tr className="border-b border-phosphor/15 bg-terminal-900/60">
-              <th className="px-4 py-3 text-left font-mono text-[10px] font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase">Tipo</th>
-              <th className="px-4 py-3 text-left font-mono text-[10px] font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase">Nombre</th>
-              <th className="hidden px-4 py-3 text-left font-mono text-[10px] font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase lg:table-cell">Descripción</th>
-              <th className="hidden px-4 py-3 text-left font-mono text-[10px] font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase xl:table-cell">Tamaño</th>
-              <th className="hidden px-4 py-3 text-left font-mono text-[10px] font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase xl:table-cell">Fecha</th>
-              <th className="px-4 py-3 text-left font-mono text-[10px] font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase">Acciones</th>
+              <th className="px-4 py-3 text-left font-mono text-xs font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase">Tipo</th>
+              <th className="px-4 py-3 text-left font-mono text-xs font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase">Nombre</th>
+              <th className="hidden px-4 py-3 text-left font-mono text-xs font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase lg:table-cell">Descripción</th>
+              <th className="hidden px-4 py-3 text-left font-mono text-xs font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase xl:table-cell">Tamaño</th>
+              <th className="hidden px-4 py-3 text-left font-mono text-xs font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase xl:table-cell">Fecha</th>
+              <th className="px-4 py-3 text-left font-mono text-xs font-semibold tracking-[0.2em] text-softgreen-dim/60 uppercase">Acciones</th>
             </tr>
           </thead>
           <tbody>

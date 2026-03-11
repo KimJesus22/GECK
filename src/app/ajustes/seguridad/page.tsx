@@ -88,7 +88,7 @@ export default function SeguridadPage() {
           <div className="h-2.5 w-2.5 rounded-full bg-red-500/50" />
           <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/50" />
           <div className="h-2.5 w-2.5 rounded-full bg-green-500/50" />
-          <span className="ml-2 text-[10px] font-medium tracking-[0.3em] text-text-muted uppercase">
+          <span className="ml-2 text-xs font-medium tracking-[0.3em] text-text-muted uppercase">
             seguridad://cambiar-contraseña
           </span>
         </div>
@@ -114,7 +114,7 @@ export default function SeguridadPage() {
 
           {/* New Password */}
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+            <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
               Nueva Contraseña
             </label>
             <div className="relative">
@@ -148,7 +148,7 @@ export default function SeguridadPage() {
 
           {/* Confirm Password */}
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+            <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
               Confirmar Nueva Contraseña
             </label>
             <div className="relative">

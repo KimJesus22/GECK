@@ -68,7 +68,7 @@ export default function DocumentRow({
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-surface-600/30 bg-surface-800">
               <Icon className={`h-5 w-5 ${config.color}`} />
             </div>
-            <span className="text-[10px] font-semibold tracking-widest text-text-muted uppercase">
+            <span className="text-xs font-semibold tracking-widest text-text-muted uppercase">
               {config.label}
             </span>
           </div>
@@ -111,7 +111,7 @@ export default function DocumentRow({
                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-bright focus-visible:ring-offset-2 focus-visible:ring-offset-surface-900
                          ${!apiUrl ? "opacity-40 pointer-events-none" : ""}`}
             >
-              <Eye className="h-4 w-4" />
+              <Eye className="h-4 w-4" aria-hidden="true" />
               Leer
             </button>
             <a
@@ -128,7 +128,7 @@ export default function DocumentRow({
                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-bright focus-visible:ring-offset-2 focus-visible:ring-offset-surface-900
                          ${!apiUrl ? "opacity-40 pointer-events-none" : ""}`}
             >
-              <Download className="h-4 w-4" />
+              <Download className="h-4 w-4" aria-hidden="true" />
               Descargar
             </a>
           </div>
@@ -152,7 +152,7 @@ export default function DocumentRow({
                   <span className="text-sm font-medium text-text-primary truncate">
                     {name}
                   </span>
-                  <span className="text-[10px] font-bold tracking-widest text-text-muted uppercase shrink-0">
+                  <span className="text-xs font-bold tracking-widest text-text-muted uppercase shrink-0">
                     {config.label}
                   </span>
                 </div>
@@ -163,7 +163,7 @@ export default function DocumentRow({
             </div>
 
             {/* Meta */}
-            <div className="flex items-center gap-4 mb-3 text-text-muted text-[10px] font-medium tracking-wider">
+            <div className="flex items-center gap-4 mb-3 text-text-muted text-xs font-medium tracking-wider">
               <span>{size}</span>
               <span>{date}</span>
             </div>
@@ -180,7 +180,7 @@ export default function DocumentRow({
                            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-bright focus-visible:ring-offset-2 focus-visible:ring-offset-surface-800
                            ${!apiUrl ? "opacity-40 pointer-events-none" : ""}`}
               >
-                <Eye className="h-4 w-4" />
+                <Eye className="h-4 w-4" aria-hidden="true" />
                 Leer
               </button>
               <a
@@ -197,7 +197,7 @@ export default function DocumentRow({
                            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-bright focus-visible:ring-offset-2 focus-visible:ring-offset-surface-800
                            ${!apiUrl ? "opacity-40 pointer-events-none" : ""}`}
               >
-                <Download className="h-4 w-4" />
+                <Download className="h-4 w-4" aria-hidden="true" />
                 Descargar
               </a>
             </div>

@@ -81,7 +81,7 @@ export default function Sidebar() {
       <div className="fixed top-0 left-0 right-0 z-40 flex h-14 items-center justify-between border-b border-surface-600/60 bg-surface-900/95 backdrop-blur-md px-4 md:hidden">
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/10">
-            <LayoutDashboard className="h-4 w-4 text-accent" />
+            <LayoutDashboard className="h-4 w-4 text-accent" aria-hidden="true" />
           </div>
           <span className="text-sm font-semibold tracking-wide text-text-primary">
             INGENIA BASE
@@ -92,7 +92,7 @@ export default function Sidebar() {
           className="rounded-lg p-2 text-text-secondary transition-colors hover:bg-surface-700 hover:text-text-primary"
           aria-label="Abrir menú"
         >
-          <Menu className="h-5 w-5" />
+          <Menu className="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
 
@@ -118,14 +118,14 @@ export default function Sidebar() {
         <div className="flex items-center justify-between border-b border-surface-600/30 px-5 py-5">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 border border-accent/20">
-              <LayoutDashboard className="h-5 w-5 text-accent" />
+              <LayoutDashboard className="h-5 w-5 text-accent" aria-hidden="true" />
             </div>
             {!collapsed && (
               <div className="overflow-hidden">
                 <h1 className="text-base font-bold tracking-wide text-text-primary">
                   INGENIA BASE
                 </h1>
-                <p className="text-[10px] font-medium tracking-widest text-text-muted uppercase">
+                <p className="text-xs font-medium tracking-widest text-text-muted uppercase">
                   Plataforma de Conocimiento
                 </p>
               </div>
@@ -134,8 +134,9 @@ export default function Sidebar() {
           <button
             onClick={() => setIsMobileMenuOpen(false)}
             className="rounded-lg p-1.5 text-text-secondary transition-colors hover:bg-surface-700 hover:text-text-primary md:hidden"
+            aria-label="Cerrar menú"
           >
-            <X className="h-5 w-5" />
+            <X className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -159,11 +160,12 @@ export default function Sidebar() {
                 `}
               >
                 <item.icon
-                  className={`h-[18px] w-[18px] shrink-0 transition-colors ${
+                  className={`h-[18px] w-[18px] transition-colors ${
                     isActive
                       ? "text-indigo"
-                      : "text-text-muted group-hover:text-text-secondary"
+                      : "text-text-muted group-hover:text-text-primary"
                   }`}
+                  aria-hidden="true"
                 />
                 {!collapsed && <span>{item.label}</span>}
               </Link>
@@ -174,7 +176,7 @@ export default function Sidebar() {
           {isAdmin && (
             <>
               <div className="my-3 h-px bg-surface-600/30 mx-1" />
-              <p className="px-3 pb-1.5 text-[10px] font-semibold tracking-widest text-text-muted uppercase">
+              <p className="px-3 pb-1.5 text-xs font-semibold tracking-widest text-text-muted uppercase">
                 Admin
               </p>
               <Link

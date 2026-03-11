@@ -150,7 +150,7 @@ export default function AdminSubirPage() {
           <div className="h-2.5 w-2.5 rounded-full bg-red-500/50" />
           <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/50" />
           <div className="h-2.5 w-2.5 rounded-full bg-green-500/50" />
-          <span className="ml-2 text-[10px] font-medium tracking-[0.3em] text-text-muted uppercase">
+          <span className="ml-2 text-xs font-medium tracking-[0.3em] text-text-muted uppercase">
             admin://subir-documento
           </span>
         </div>
@@ -159,7 +159,7 @@ export default function AdminSubirPage() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-5 sm:p-8">
           {/* Título */}
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+            <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
               Título del Documento
             </label>
             <div className="relative">
@@ -180,7 +180,7 @@ export default function AdminSubirPage() {
 
           {/* Descripción */}
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+            <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
               Descripción Breve
             </label>
             <textarea
@@ -198,7 +198,7 @@ export default function AdminSubirPage() {
 
           {/* Categoría */}
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+            <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
               Categoría
             </label>
             <select
@@ -223,7 +223,7 @@ export default function AdminSubirPage() {
 
           {/* Archivo */}
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+            <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
               Archivo (PDF, DOCX, MP4)
             </label>
             <div
@@ -246,7 +246,7 @@ export default function AdminSubirPage() {
                     <p className="text-sm text-text-primary truncate">
                       {archivo.name}
                     </p>
-                    <p className="text-[10px] text-text-muted">
+                    <p className="text-xs text-text-muted">
                       {formatFileSize(archivo.size)} —{" "}
                       {getFileType(archivo.name).toUpperCase()}
                     </p>

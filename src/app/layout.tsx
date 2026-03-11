@@ -20,7 +20,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "INGENIA BASE — Plataforma de Conocimiento Corporativo",
   description:
-    "INGENIA BASE: plataforma corporativa de capacitación y gestión de conocimiento empresarial.",
+    "Bóveda de gestión documental segura para proyectos universitarios.",
 };
 
 import { Toaster } from "sonner";

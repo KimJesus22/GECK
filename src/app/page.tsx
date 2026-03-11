@@ -85,7 +85,7 @@ export default function LandingPage() {
             style={{ animation: "fade-in-up 0.5s ease-out both" }}
           >
             <Zap className="h-3.5 w-3.5 text-phosphor" />
-            <span className="font-mono text-[10px] tracking-[0.3em] text-phosphor-dim uppercase">
+            <span className="font-mono text-xs tracking-[0.3em] text-phosphor-dim uppercase">
               Plataforma Corporativa v1.0
             </span>
           </div>
@@ -175,7 +175,7 @@ export default function LandingPage() {
               >
                 {stat.value}
               </span>
-              <span className="mt-1 block font-mono text-[10px] tracking-[0.2em] text-softgreen-dim/60 uppercase">
+              <span className="mt-1 block font-mono text-xs tracking-[0.2em] text-softgreen-dim/60 uppercase">
                 {stat.label}
               </span>
             </div>
@@ -253,7 +253,7 @@ export default function LandingPage() {
               INGENIA BASE v1.0.0
             </span>
           </div>
-          <span className="font-mono text-[10px] tracking-wider text-softgreen-dim/30">
+          <span className="font-mono text-xs tracking-wider text-softgreen-dim/30">
             © 2026 — Todos los derechos reservados
           </span>
         </div>

@@ -91,7 +91,7 @@ export default function PerfilPage() {
           <div className="h-2.5 w-2.5 rounded-full bg-red-500/50" />
           <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/50" />
           <div className="h-2.5 w-2.5 rounded-full bg-green-500/50" />
-          <span className="ml-2 text-[10px] font-medium tracking-[0.3em] text-text-muted uppercase">
+          <span className="ml-2 text-xs font-medium tracking-[0.3em] text-text-muted uppercase">
             perfil://datos-usuario
           </span>
         </div>
@@ -100,7 +100,7 @@ export default function PerfilPage() {
         <div className="p-5 sm:p-8 flex flex-col gap-6">
           {/* Email */}
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+            <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
               Correo Electrónico
             </label>
             <div className="relative">
@@ -117,7 +117,7 @@ export default function PerfilPage() {
 
           {/* Rol */}
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+            <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
               Rol en la Plataforma
             </label>
             <div className="relative">
@@ -130,7 +130,7 @@ export default function PerfilPage() {
                            text-sm text-text-primary cursor-not-allowed opacity-80 outline-none"
               />
               <span
-                className={`absolute right-3 top-1/2 -translate-y-1/2 rounded-md px-2 py-0.5 text-[10px] font-semibold tracking-wider uppercase
+                className={`absolute right-3 top-1/2 -translate-y-1/2 rounded-md px-2 py-0.5 text-xs font-semibold tracking-wider uppercase
                   ${
                     rol === "admin"
                       ? "bg-accent/10 text-accent border border-accent/20"
@@ -144,7 +144,7 @@ export default function PerfilPage() {
 
           {/* Estado */}
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+            <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
               Estado de Cuenta
             </label>
             <div className="relative">
@@ -161,7 +161,7 @@ export default function PerfilPage() {
 
           {/* Fecha de creación */}
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold tracking-wider text-text-muted uppercase">
+            <label className="mb-1.5 block text-xs font-semibold tracking-wider text-text-muted uppercase">
               Cuenta Creada
             </label>
             <input
